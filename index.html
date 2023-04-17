@@ -42,7 +42,7 @@
         </ul>
     </nav>
 
-    <main class="bg-red-50 w-full h-96 grid ">
+    <main class="bg-red-50 w-full h-auto grid ">
         <div class="balance bg-gray-50	grid h-auto p-8 rounded-md grid-cols-none m-8	">
             <h2 class="font-bold text-3xl w-full h-8 p-1 ">Balance</h2>
             <div class="container-col grid grid-cols-2 justify-center items-center w-full ">
@@ -51,12 +51,43 @@
                     <h3 class="text-xl py-5">Gastos</h3>
                     <h3 class="text-xl py-5">Total</h3>
                 </div>
-            
                 <div class="montos w-full">
                     <p class="text-xl text-green-600 text-right py-5">+$0</p>
                     <p class="text-xl text-red-600 text-right	py-5">-$0</p>
                     <p class="text-xl text-right py-5">$0</p>
                 </div>
+            </div>
+        </div>
+        <div class="filtros bg-gray-50	grid h-auto p-8 rounded-md grid-cols-none m-8">
+            <div class="tipo">
+                <h2 class="font-bold text-3xl w-full h-8 ">Filtros</h2>
+                <h3 class="text-xl pt-5">Tipos</h3>
+                <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter">
+                    <option value="Todos">Todos</option>
+                    <option value="Ganancias">Ganancias</option>
+                    <option value="Gastos">Gastos</option>
+                </select>
+                <h3 class="text-xl pt-5">Categoría</h3>
+                <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter">
+                    <option value="todas">Todas</option>
+                    <option value="comidas">Comidas</option>
+                    <option value="ganancias">Servicios</option>
+                    <option value="gastos">Salidas</option>
+                    <option value="educacion">Educación</option>
+                    <option value="transporte">Transporte</option>
+                    <option value="trabajo">Trabajo</option>
+                </select>
+                <h3 class="text-xl pt-5">Desde</h3>
+                <input type="date" name="" id="" class="border-solid border-2 w-full my-2 p-2 rounded-md ">
+                <h3 class="text-xl pt-5">Ordenar Por</h3>
+                <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter">
+                    <option value="mas_reciente">Más Reciente</option>
+                    <option value="menos_reciente">Menos Reciente</option>
+                    <option value="mayor_monto">Mayor Monto</option>
+                    <option value="menor_monto">Menor Monto</option>
+                    <option value="A/Z">A/Z</option>
+                    <option value="Z/A">Z/A</option>
+                </select>
             </div>
 
         </div>
