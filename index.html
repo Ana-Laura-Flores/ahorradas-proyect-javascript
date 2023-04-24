@@ -59,14 +59,19 @@
             </div>
         </div>
         <div class="filtros bg-gray-50	grid h-auto p-8 rounded-md grid-cols-none m-8">
-            <div class="tipo">
+            <div class="filtros-tipo grid grid-cols-2">
                 <h2 class="font-bold text-3xl w-full h-8 ">Filtros</h2>
+                <h3 class="text-l text-blue-600 text-right">Ocultar Filtros</h3>
+            </div>
+            <div class="select-tipos">
                 <h3 class="text-xl pt-5">Tipos</h3>
                 <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter">
                     <option value="Todos">Todos</option>
                     <option value="Ganancias">Ganancias</option>
                     <option value="Gastos">Gastos</option>
                 </select>
+            </div>
+            <div class="select-category">    
                 <h3 class="text-xl pt-5">Categoría</h3>
                 <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter">
                     <option value="todas">Todas</option>
@@ -77,8 +82,12 @@
                     <option value="transporte">Transporte</option>
                     <option value="trabajo">Trabajo</option>
                 </select>
+            </div>
+            <div class="date">    
                 <h3 class="text-xl pt-5">Desde</h3>
                 <input type="date" name="" id="" class="border-solid border-2 w-full my-2 p-2 rounded-md ">
+            </div>
+            <div class="order">
                 <h3 class="text-xl pt-5">Ordenar Por</h3>
                 <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter">
                     <option value="mas_reciente">Más Reciente</option>
@@ -89,8 +98,67 @@
                     <option value="Z/A">Z/A</option>
                 </select>
             </div>
-
         </div>
+        <div class="operations-container bg-gray-50	grid h-auto p-8 rounded-md grid-cols-none m-8">
+            <div class="operation-title grid xl:grid-cols-2 ">
+                <h2 class="font-bold text-3xl w-full h-8 coll">Operaciones</h2>
+                <div class="btn-new grid justify-self-start my-5">
+                    <button class="font-bold text-white bg-[#D22779] p-2 rounded-md">+ Nueva Operación</button>
+                </div>
+            </div>
+            <div class="operations-result">
+                <div class="img-container w-1/2">
+                    <img src="./images/img-operations.jpg" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="container-new-operation" id="new-operation">
+            <div class="new-operation bg-gray-50 grid h-auto p-8 rounded-md grid-cols-none m-8">
+                <div class="text-new-operation">
+                    <h2 class="font-bold text-3xl w-full h-8 coll my-10">Nueva Operación</h2>
+                    <div class="description-container ">
+                        <label class="font-bold text-xl" for="description">Descripción</label>
+                        <input class=" border-solid border-2 w-full my-2 p-2 rounded-md" type="text" name="description" id="description">
+                    </div>
+                    <div class="monto-container">
+                        <label class="font-bold text-xl" for="monto">Monto</label>
+                        <input class="border-solid border-2 w-full my-2 p-2 rounded-md" type="number" name="" id="">
+                    </div>
+                    <div class="type-container">
+                        <label class="font-bold text-xl" for="type">Tipo</label>
+                        <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="type" id="">
+                            <option value="gasto">Gasto</option>
+                            <option value="ganancia">Ganancia</option>
+                        </select>
+                    </div>
+                    <div class="category-container">
+                        <label class="font-bold text-xl" for="category">Categoría</label>
+                        <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="type" id="">
+                            <option value="todas">Todas</option>
+                            <option value="comidas">Comidas</option>
+                            <option value="ganancias">Servicios</option>
+                            <option value="gastos">Salidas</option>
+                            <option value="educacion">Educación</option>
+                            <option value="transporte">Transporte</option>
+                            <option value="trabajo">Trabajo</option>
+                        </select>
+                    </div>
+                    <div class="date-container">
+                        <h3 class="text-xl pt-5">Fecha</h3>
+                        <input type="date" name="" id="" class="border-solid border-2 w-full my-2 p-2 rounded-md ">
+                    </div>
+                    <div class="grid grid-cols-2 justify-end">
+                        <div></div>
+                        <div class="buttons-container grid grid-cols-2 justify-items-end my-10">
+                            <button class="font-bold text-black w-3/4 bg-gray-300 p-2 rounded-md">Cancelar</button>
+                            <button class="font-bold text-white w-3/4 bg-[#D22779] p-2 rounded-md">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+       
 
     </main>
 
