@@ -22,18 +22,18 @@
              </div>
         </div>
         <ul class="flex items-center justify-end w-3/5 pr-5 hidden lg:flex	">
-            <li class="p-1 w-1/3 font-bold text-white text-center hover:bg-[#ab165d] items-center hover:rounded-xl">
+            <li class="p-1 w-auto font-bold text-white text-center hover:bg-[#ab165d] items-center hover:rounded-xl">
                 <a href="#">
-                <i class="fas fa-chart-line text-white text-2xl px-2"></i>
+                <i class="fas fa-chart-line text-white text-xl px-2"></i>
                 Balance
                 </a>
             </li>
-            <li class="p-1 w-1/3 font-bold text-white  text-center hover:bg-[#ab165d] hover:rounded-xl ">
+            <li class="p-1 w-auto font-bold text-white  text-center hover:bg-[#ab165d] hover:rounded-xl ">
                 <a href="#">
                 <i class="fas fa-tag text-white text-xl px-2"></i> 
                 Categoría</a>
             </li>
-            <li class="p-1 w-1/3 font-bold text-white text-center hover:bg-[#ab165d] hover:rounded-xl">
+            <li class="p-1 w-auto font-bold text-white text-center hover:bg-[#ab165d] hover:rounded-xl">
                 <a href="#">
                 <i class="fas fa-chart-pie text-white text-xl px-2"></i>  
                 Reportes</a>
@@ -42,97 +42,117 @@
         </ul>
     </nav>
 
-    <main class="bg-red-50 w-full h-auto grid ">
-        <div class="balance bg-gray-50	grid h-auto p-8 rounded-md grid-cols-none m-8	">
-            <h2 class="font-bold text-3xl w-full h-8 p-1 ">Balance</h2>
-            <div class="container-col grid grid-cols-2 justify-center items-center w-full ">
-                <div class="items w-full">
-                    <h3 class="text-xl py-5 ">Ganancias</h3>
-                    <h3 class="text-xl py-5">Gastos</h3>
-                    <h3 class="text-xl py-5">Total</h3>
+    <main class="bg-red-50 w-full h-auto flex flex-col">
+        <div class="flex flex-col lg:flex-row">
+            <div class="flex flex-col lg:w-2/5 ">
+                <div class="balance bg-gray-50 flex flex-col h-auto p-8 lg:mr-2 rounded-md  m-8	">
+                    <h2 class="font-bold text-2xl w-full h-8 p-1 ">Balance</h2>
+                    <div class="container-col flex  justify-center items-center w-full ">
+                        <div class="items w-full flex-col">
+                            <h3 class="text-xl py-5 ">Ganancias</h3>
+                            <h3 class="text-xl py-5">Gastos</h3>
+                            <h3 class="text-2xl py-5">Total</h3>
+                        </div>
+                        <div class="montos w-full">
+                            <p class="text-xl text-green-600 text-right py-5">+$0</p>
+                            <p class="text-xl text-red-600 text-right	py-5">-$0</p>
+                            <p class="text-xl text-right py-5">$0</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="montos w-full">
-                    <p class="text-xl text-green-600 text-right py-5">+$0</p>
-                    <p class="text-xl text-red-600 text-right	py-5">-$0</p>
-                    <p class="text-xl text-right py-5">$0</p>
+
+            <!-- section filter -->
+                <div class="filter bg-gray-50 h-auto p-8 lg:mr-2 rounded-md  m-8">
+                    <div class="filter-tipo flex">
+                        <h2 class="font-bold text-2xl w-3/4 h-8 ">Filtros</h2>
+                        <h3 class="text-l text-blue-600 w-1/4 text-right">Ocultar Filtros</h3>
+                    </div>
+                    <div class="select-types">
+                        <h3 class="text-lg font-bold text-gray-600	pt-5">Tipo</h3>
+                        <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter">
+                            <option value="Todos">Todos</option>
+                            <option value="Ganancias">Ganancias</option>
+                            <option value="Gastos">Gastos</option>
+                        </select>
+                    </div>
+                    <div class="select-category">    
+                        <h3 class="text-lg font-bold text-gray-600	pt-5">Categoría</h3>
+                        <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter">
+                            <option value="todas">Todas</option>
+                            <option value="comidas">Comidas</option>
+                            <option value="ganancias">Servicios</option>
+                            <option value="gastos">Salidas</option>
+                            <option value="educacion">Educación</option>
+                            <option value="transporte">Transporte</option>
+                            <option value="trabajo">Trabajo</option>
+                        </select>
+                    </div>
+                    <div class="date">    
+                        <h3 class="text-lg font-bold text-gray-600	pt-5">Desde</h3>
+                        <input type="date" name="" id="" class="border-solid border-2 w-full my-2 p-2 rounded-md ">
+                    </div>
+                    <div class="order">
+                        <h3 class="text-lg font-bold text-gray-600	pt-5">Ordenar Por</h3>
+                        <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter">
+                            <option value="mas_reciente">Más Reciente</option>
+                            <option value="menos_reciente">Menos Reciente</option>
+                            <option value="mayor_monto">Mayor Monto</option>
+                            <option value="menor_monto">Menor Monto</option>
+                            <option value="A/Z">A/Z</option>
+                            <option value="Z/A">Z/A</option>
+                        </select>
+                    </div>
                 </div>
+            </div>
+
+            <!--  section operations -->
+            <div class="operations-container bg-gray-50	 lg:w-3/5 h-auto p-8 rounded-md  m-8">
+                <div class="operation-title flex flex-col lg:flex-row lg:items-center ">
+                    <h2 class="font-bold text-2xl w-3/4 h-8 ">Operaciones</h2>
+                    <div class="btn-new w-2/3 my-5 lg: flex lg:justify-end">
+                        <button class="font-bold text-base text-white bg-[#D22779] p-2 rounded-md">+ Nueva Operación</button>
+                    </div>
+                </div>
+                <!-- change operation -->
+                <div class="operations-result flex flex-col items-center hidden">
+                    <div class="img-container flex justify-center lg:m-8 ">
+                        <img class="w-1/2 lg:w-3/4" src="./images/img-operations.jpg" alt="">
+                    </div>
+                    <div class="container-text-no-operation my-10">
+                        <h2 class="font-bold text-2xl text-center my-3"> Sin resultados </h2>
+                        <p class="text-base text-center">Cambia los filtros o agrega operaciones</p>
+                    </div>
+                
+                </div>
+               
+
             </div>
         </div>
-        <div class="filtros bg-gray-50	grid h-auto p-8 rounded-md grid-cols-none m-8">
-            <div class="filtros-tipo grid grid-cols-2">
-                <h2 class="font-bold text-3xl w-full h-8 ">Filtros</h2>
-                <h3 class="text-l text-blue-600 text-right">Ocultar Filtros</h3>
-            </div>
-            <div class="select-tipos">
-                <h3 class="text-xl pt-5">Tipos</h3>
-                <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter">
-                    <option value="Todos">Todos</option>
-                    <option value="Ganancias">Ganancias</option>
-                    <option value="Gastos">Gastos</option>
-                </select>
-            </div>
-            <div class="select-category">    
-                <h3 class="text-xl pt-5">Categoría</h3>
-                <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter">
-                    <option value="todas">Todas</option>
-                    <option value="comidas">Comidas</option>
-                    <option value="ganancias">Servicios</option>
-                    <option value="gastos">Salidas</option>
-                    <option value="educacion">Educación</option>
-                    <option value="transporte">Transporte</option>
-                    <option value="trabajo">Trabajo</option>
-                </select>
-            </div>
-            <div class="date">    
-                <h3 class="text-xl pt-5">Desde</h3>
-                <input type="date" name="" id="" class="border-solid border-2 w-full my-2 p-2 rounded-md ">
-            </div>
-            <div class="order">
-                <h3 class="text-xl pt-5">Ordenar Por</h3>
-                <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter">
-                    <option value="mas_reciente">Más Reciente</option>
-                    <option value="menos_reciente">Menos Reciente</option>
-                    <option value="mayor_monto">Mayor Monto</option>
-                    <option value="menor_monto">Menor Monto</option>
-                    <option value="A/Z">A/Z</option>
-                    <option value="Z/A">Z/A</option>
-                </select>
-            </div>
-        </div>
-        <div class="operations-container bg-gray-50	grid h-auto p-8 rounded-md grid-cols-none m-8">
-            <div class="operation-title grid xl:grid-cols-2 ">
-                <h2 class="font-bold text-3xl w-full h-8 coll">Operaciones</h2>
-                <div class="btn-new grid justify-self-start my-5">
-                    <button class="font-bold text-white bg-[#D22779] p-2 rounded-md">+ Nueva Operación</button>
-                </div>
-            </div>
-            <div class="operations-result">
-                <div class="img-container w-1/2">
-                    <img src="./images/img-operations.jpg" alt="">
-                </div>
-            </div>
-        </div>
+        
+
+
+        <!-- new operations -->
         <div class="container-new-operation" id="new-operation">
-            <div class="new-operation bg-gray-50 grid h-auto p-8 rounded-md grid-cols-none m-8">
+            <div class="new-operation bg-gray-50 grid h-auto p-8 rounded-md  m-8">
                 <div class="text-new-operation">
-                    <h2 class="font-bold text-3xl w-full h-8 coll my-10">Nueva Operación</h2>
+                    <h2 class="font-bold text-2xl w-full h-8 my-10">Nueva Operación</h2>
                     <div class="description-container ">
-                        <label class="font-bold text-xl" for="description">Descripción</label>
+                        <label class="text-lg font-bold text-gray-600	pt-5" for="description">Descripción</label>
                         <input class=" border-solid border-2 w-full my-2 p-2 rounded-md" type="text" name="description" id="description">
                     </div>
                     <div class="monto-container">
-                        <label class="font-bold text-xl" for="monto">Monto</label>
+                        <label class="text-lg font-bold text-gray-600	pt-5" for="monto">Monto</label>
                         <input class="border-solid border-2 w-full my-2 p-2 rounded-md" type="number" name="" id="">
                     </div>
                     <div class="type-container">
-                        <label class="font-bold text-xl" for="type">Tipo</label>
+                        <label class="text-lg font-bold text-gray-600	pt-5" for="type">Tipo</label>
                         <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="type" id="">
                             <option value="gasto">Gasto</option>
                             <option value="ganancia">Ganancia</option>
                         </select>
                     </div>
                     <div class="category-container">
-                        <label class="font-bold text-xl" for="category">Categoría</label>
+                        <label class="text-lg font-bold text-gray-600	pt-5" for="category">Categoría</label>
                         <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="type" id="">
                             <option value="todas">Todas</option>
                             <option value="comidas">Comidas</option>
@@ -144,24 +164,118 @@
                         </select>
                     </div>
                     <div class="date-container">
-                        <h3 class="text-xl pt-5">Fecha</h3>
+                        <h3 class="text-lg font-bold text-gray-600	pt-5">Fecha</h3>
                         <input type="date" name="" id="" class="border-solid border-2 w-full my-2 p-2 rounded-md ">
                     </div>
-                    <div class="grid grid-cols-2 justify-end">
-                        <div></div>
-                        <div class="buttons-container grid grid-cols-2 justify-items-end my-10">
-                            <button class="font-bold text-black w-3/4 bg-gray-300 p-2 rounded-md">Cancelar</button>
-                            <button class="font-bold text-white w-3/4 bg-[#D22779] p-2 rounded-md">Agregar</button>
+                   
+                        <div class="buttons-container  flex justify-end my-10">
+                            <button class="font-bold text-black w-1/3 mx-8bg-gray-300 p-2 rounded-md">Cancelar</button>
+                            <button class="font-bold text-white w-1/3 bg-[#D22779] p-2 rounded-md">Agregar</button>
                         </div>
-                    </div>
+                   
                 </div>
 
             </div>
         </div>
-       
+        <div class="container-category 	">
+            <div class="category bg-gray-50 flex flex-col h-auto p-8 rounded-md m-8">
+                <div class="text-add-category flex flex-col">
+                    <h2 class="font-bold text-2xl w-full h-8 my-10">Categorías</h2>
+                </div>
+                <div class="flex">
+                    <div class="flex flex-col w-3/4">
+                        <label class="text-lg font-bold text-gray-600" for="category-news">Nombre</label>
+                        <input class="border-solid border-2 w-full my-2 p-2 rounded-md" type="number" name="" id="">
+                    </div>
+                
+                    <div class="container-btn-newcategory w-1/5 ml-5 my-2 h-24 flex items-center justify-end">
+                        <button class="font-bold text-white w-full bg-[#D22779] p-2 rounded-md justify-end	">Agregar</button>
+                    </div>                    
+                </div>
+                <div class="container-cat flex w-full justify-between my-2 items-center">
+                    <div class="rounded-md bg-[#EEAECD] p-2">
+                        <h3 class="text-xs font-bold text-center text-[#D22779]">Comidas</h3>
+                    </div>
+                    <div class="container-modify flex justify-end items-end w-1/2">
+                        <div class="edit w-1/3 flex h-auto  ">
+                            <a href="http://"><i class="fa-solid flex fa-pencil text-sm text-gray-600"><p class="font-sans font-normal">&nbsp;editar</p></i></a>
+                        </div>
+                        <div class="delete w-1/3 flex h-auto ">
+                            <a href="http://"><i class="fa-solid flex fa-trash text-sm text-gray-600"><p class="font-sans font-normal">&nbsp;eliminar</p></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-cat flex w-full justify-between my-2 items-center	">
+                    <div class="rounded-md bg-[#EEAECD] p-2">
+                        <h3 class="text-xs font-bold text-center text-[#D22779]">Servicios</h3>
+                    </div>
+                    <div class="container-modify flex justify-end items-end w-1/2">
+                        <div class="edit w-1/3 flex h-auto ">
+                            <a href="http://"><i class="fa-solid flex fa-pencil text-sm text-gray-600"><p class="font-sans font-normal">&nbsp;editar</p></i></a>
+                        </div>
+                        <div class="delete w-1/3 flex h-auto ">
+                            <a href="http://"><i class="fa-solid flex fa-trash text-sm text-gray-600"><p class="font-sans font-normal">&nbsp;eliminar</p></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-cat flex w-full justify-between my-2 items-center">
+                    <div class="rounded-md bg-[#EEAECD] p-2">
+                        <h3 class="text-xs font-bold text-center text-[#D22779]">Salidas</h3>
+                    </div>
+                    <div class="container-modify flex justify-end items-end w-1/2">
+                        <div class="edit w-1/3 flex h-auto ">
+                            <a href="http://"><i class="fa-solid flex fa-pencil text-sm text-gray-600"><p class="font-sans font-normal">&nbsp;editar</p></i></a>
+                        </div>
+                        <div class="delete w-1/3 flex h-auto ">
+                            <a href="http://"><i class="fa-solid flex fa-trash text-sm text-gray-600"><p class="font-sans font-normal">&nbsp;eliminar</p></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-cat flex w-full justify-between my-2 items-center	">
+                    <div class="rounded-md bg-[#EEAECD] p-2">
+                        <h3 class="text-xs font-bold text-center text-[#D22779]">Educación</h3>
+                    </div>
+                    <div class="container-modify flex justify-end items-end w-1/2">
+                        <div class="edit w-1/3 flex h-auto ">
+                            <a href="http://"><i class="fa-solid flex fa-pencil text-sm text-gray-600"><p class="font-sans font-normal">&nbsp;editar</p></i></a>
+                        </div>
+                        <div class="delete w-1/3 flex h-auto ">
+                            <a href="http://"><i class="fa-solid flex fa-trash text-sm text-gray-600"><p class="font-sans font-normal">&nbsp;eliminar</p></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-cat flex w-full justify-between my-2 items-center	">
+                    <div class="rounded-md bg-[#EEAECD] p-2">
+                        <h3 class="text-xs font-bold text-center text-[#D22779]">Transporte</h3>
+                    </div>
+                    <div class="container-modify flex justify-end items-end w-1/2">
+                        <div class="edit w-1/3 flex h-auto ">
+                            <a href="http://"><i class="fa-solid flex fa-pencil text-sm text-gray-600"><p class="font-sans font-normal">&nbsp;editar</p></i></a>
+                        </div>
+                        <div class="delete w-1/3 flex h-auto ">
+                            <a href="http://"><i class="fa-solid flex fa-trash text-sm text-gray-600"><p class="font-sans font-normal">&nbsp;eliminar</p></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-cat flex w-full justify-between my-2 items-center	">
+                    <div class="rounded-md bg-[#EEAECD] p-2">
+                        <h3 class="text-xs font-bold text-center text-[#D22779]">Trabajo</h3>
+                    </div>
+                    <div class="container-modify flex justify-end items-end w-1/2">
+                        <div class="edit w-1/3 flex h-auto ">
+                            <a href="http://"><i class="fa-solid flex fa-pencil text-sm text-gray-600"><p class="font-sans font-normal">&nbsp;editar</p></i></a>
+                        </div>
+                        <div class="delete w-1/3 flex h-auto ">
+                            <a href="http://"><i class="fa-solid flex fa-trash text-sm text-gray-600"><p class="font-sans font-normal">&nbsp;eliminar</p></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
 
     </main>
-
+    
     
 
     <script src="./js/main.js"></script>
