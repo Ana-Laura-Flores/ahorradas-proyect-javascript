@@ -128,7 +128,7 @@
                 <div class="container-table flex h-auto w-full ">
                     <table class="w-full ">
                        <thead class="w-full hidden md:flex ">
-                           <tr class="w-full flex justify-between 		">
+                           <tr class="w-full flex justify-between my-3">
                                 <th class="px-2 md:align-left md:w-1/3  md:text-left">Descripción</th>
                                 <th class="px-2 md:w-1/4 md:text-left">Categoría</th>
                                 <th class="px-2 hidden md:flex md:justify-end md:w-1/6	">Fecha</th>
@@ -211,7 +211,7 @@
             </div>
         </div>
         <!-- categorys -->
-        <div class="container-category drop-shadow-lg">
+        <div class="container-category drop-shadow-lg h-auto">
             <div class="category bg-gray-50 flex flex-col h-auto p-8 rounded-md m-8">
                 <div class="text-add-category flex flex-col">
                     <h2 class="font-bold text-2xl w-full h-8 my-10">Categorías</h2>
@@ -222,7 +222,7 @@
                         <input class="border-solid border-2 w-full my-2 p-2 rounded-md" type="number" name="" id="">
                     </div>
                 
-                    <div class="container-btn-newcategory w-1/5 ml-5 my-2 h-24 flex items-center justify-end">
+                    <div class="container-btn-newcategory w-1/4 ml-5 my-2 h-24 flex items-center justify-end">
                         <button class="font-bold text-sm text-white w-full bg-[#D22779] p-2 rounded-md justify-end	">Agregar</button>
                     </div>                    
                 </div>
@@ -285,7 +285,7 @@
         </div>
 
         <!-- report -->
-        <div class="container-report lg:m-36 drop-shadow-lg	" id="container-report">
+        <div class="container-report lg:m-36 drop-shadow-lg h-auto	" id="container-report">
             <div class="report bg-gray-50  h-auto p-8 rounded-md  m-8 ">
                 <div class="text-report px-2">
                     <h2 class="font-bold text-3xl w-full h-8 mt-10">Reportes</h2>
@@ -310,13 +310,13 @@
                         <div class="w-1/4 text-right font-bold text-gray-600">$200500</div>
                     </div>
                     <div class="greater-revenue flex my-5">
-                        <div class="w-1/2">Mes con más ganancia</div>
-                        <div class="w-1/4 text-right"> 2023/04/27 </div>
+                        <div class="w-1/2 ">Mes con más ganancia</div>
+                        <div class="w-1/4 text-sm text-right"> 2023/04/27 </div>
                         <div class="w-1/4 text-right font-bold text-gray-600">$200500</div>
                     </div>
                     <div class="greater-bills flex my-5">
-                        <div class="w-1/2">Mes con más gasto</div>
-                        <div class="w-1/4 text-right"> 2023/04/27 </div>
+                        <div class="w-1/2 ">Mes con más gasto</div>
+                        <div class="w-1/4 text-sm text-right"> 2023/04/27 </div>
                         <div class="w-1/4 text-right font-bold text-gray-600">$200500</div>
                     </div>
                 </div>
@@ -327,8 +327,8 @@
             <div class="text-report px-2">
                 <h2 class="font-bold text-2xl w-full h-8 mt-10">Totales por Categoría</h2>
             </div>
-            <div class="container-table-category-total h-auto py-5 ">
-                <table class="table-auto w-full border-separate border-spacing-2  text-left	">
+            <div class="container-table-category-total w-full h-auto py-5 ">
+                <table class=" w-full border-separate border-spacing-2  text-sm text-left	">
                     <thead>
                         <th class="px-2 ">Categoría</th>
                         <th class="px-2 text-right ">Ganancias</th>
@@ -365,19 +365,21 @@
                 <h2 class="font-bold text-2xl w-full h-8 mt-10">Total por mes</h2>
             </div>
             <div class="container-table-month-total h-auto py-5 ">
-                <table class="table-auto w-full border-separate border-spacing-2  text-left	">
-                    <thead>
-                        <th class="px-2 ">Mes</th>
-                        <th class="px-2 text-right ">Ganancias</th>
-                        <th class="px-2 text-right">Gastos</th>
-                        <th class="px-2 text-right">balance</th>
+                <table class=" w-full  border-separate border-spacing-2  text-left	">
+                    <thead class="w-11/12">
+                        <tr>
+                            <th class="px-2 ">Mes</th>
+                            <th class="px-2 text-right ">Ganancias</th>
+                            <th class="px-2 text-right">Gastos</th>
+                            <th class="px-2 text-right">balance</th>
+                        </tr>
                     </thead>
-                    <tbody class=>
+                    <tbody class="">
                         <tr class="">
-                        <td class="px-2">03/2023</td>
-                        <td class="px-2 text-right  text-green-600">$2000</td>
-                        <td class="px-2 text-right  text-red-600">$500</td>
-                        <td class="px-2 text-right font-bold text-gray-600">$ 50000</td>
+                            <td class="px-2">03/2023</td>
+                            <td class="px-2 text-right  text-green-600">$2000</td>
+                            <td class="px-2 text-right  text-red-600">$500</td>
+                            <td class="px-2 text-right font-bold text-gray-600">$ 50000</td>
                         <tr>
                         <tr class="">
                             <td class="px-2">04/2023</td>
@@ -394,9 +396,14 @@
                     </tbody>
                 </table>
             </div>
-      
-               
+            </div>
+        </div>
+     
     </main>
+    <footer class="bg-[#D22779] w-full h-24 flex justify-center items-center">
+        <h2 class="text-white text-lg font-mono	">Realizado por Ana Laura Flores</h2>
+
+    </footer>
     
     
 
