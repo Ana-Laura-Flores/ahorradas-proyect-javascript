@@ -11,39 +11,66 @@
     <title>AhorrADAS</title>
 </head>
 <body>
-    <nav class="bg-[#D22779] w-full h-24 flex">
+    <!-- nav bar -->
+    <nav class="bg-[#D22779] w-full h-24 flex" id="nav-bar">
         <div class="logo flex items-center w-1/2 pl-5">
             <i class="fas fa-piggy-bank text-white text-5xl p-3  "></i>
             <P class="text-white text-4xl font-sans font-semibold p-3 ">AHORRADAS</P>
         </div>
         <div class="menu w-1/2">
             <div class="nav-burguer  flex justify-end lg:hidden">
-                <i class="fas fa-bars text-white text-4xl flex justify-end items-center	 p-5"></i>
+                <i class="fas fa-bars text-white text-4xl flex justify-end items-center	 p-5" id="btn-menu"></i>
+                <span class=" hidden text-white text-4xl flex justify-end items-center	 p-5 " id="btn-menu-close">&times;
+                </span>
              </div>
         </div>
-        <ul class="flex items-center justify-end w-3/5 pr-5 hidden lg:flex	">
-            <li class="p-1 w-auto font-bold text-white text-center hover:bg-[#ab165d] items-center hover:rounded-xl">
+        <div class="flex items-center justify-end w-3/5 pr-5 hidden lg:flex" id="container-nav">
+            <ul class="flex ">
+                <li class="btn-balance p-1 w-auto font-bold text-white text-center hover:bg-[#ab165d] items-center hover:rounded-xl" id="">
+                    <a href="#">
+                    <i class="fas fa-chart-line text-white text-xl px-2" ></i>
+                    Balance
+                    </a>
+                </li>
+                <li class="btn-categories p-1 w-auto font-bold text-white  text-center hover:bg-[#ab165d] hover:rounded-xl" id="">
+                    <a href="#">
+                    <i class="fas fa-tag text-white text-xl px-2"></i> 
+                    Categoría</a>
+                </li>
+                <li class="btn-reports p-1 w-auto font-bold text-white text-center hover:bg-[#ab165d] hover:rounded-xl" id="">
+                    <a href="#">
+                    <i class="fas fa-chart-pie text-white text-xl px-2"></i>  
+                    Reportes</a>
+                </li>
+            
+            </ul>
+        </div>
+    </nav>
+    <!--  dropdown -->
+    <div class="flex items-center justify-start w-3/5 p-5 hidden lg:hidden" id="dropdown">
+        <ul class="flex flex-col ">
+            <li class="btn-balance p-1 w-auto font-bold text-[#D22779] text-center hover:bg-[#ab165d] items-center hover:rounded-xl" id="">
                 <a href="#">
-                <i class="fas fa-chart-line text-white text-xl px-2"></i>
+                <i class="fas fa-chart-line text-[#D22779] text-xl px-2" ></i>
                 Balance
                 </a>
             </li>
-            <li class="p-1 w-auto font-bold text-white  text-center hover:bg-[#ab165d] hover:rounded-xl ">
+            <li class="btn-categories p-1 w-auto font-bold text-[#D22779]  text-center hover:bg-[#ab165d] hover:rounded-xl" id="">
                 <a href="#">
-                <i class="fas fa-tag text-white text-xl px-2"></i> 
+                <i class="fas fa-tag text-[#D22779] text-xl px-2"></i> 
                 Categoría</a>
             </li>
-            <li class="p-1 w-auto font-bold text-white text-center hover:bg-[#ab165d] hover:rounded-xl">
+            <li class="btn-reports p-1 w-auto font-bold text-[#D22779] text-center hover:bg-[#ab165d] hover:rounded-xl" id="btn-reports">
                 <a href="#">
-                <i class="fas fa-chart-pie text-white text-xl px-2"></i>  
+                <i class="fas fa-chart-pie text-[#D22779] text-xl px-2"></i>  
                 Reportes</a>
             </li>
         
         </ul>
-    </nav>
-
+    </div>
+ <!-- main -->
     <main class="bg-red-50 w-full  h-auto flex flex-col">
-        <div class="flex flex-col lg:flex-row">
+        <div class="flex flex-col lg:flex-row" id="container-balance">
             <div class="flex flex-col lg:w-2/5 ">
                 <div class="balance bg-gray-50 flex flex-col h-auto p-8 lg:mr-2 drop-shadow-lg	 rounded-md  m-8	">
                     <h2 class="font-bold text-2xl w-full h-8 p-1 ">Balance</h2>
@@ -114,7 +141,7 @@
                     </div>
                 </div>
                 <!-- change operation -->
-                <div class="operations-result flex flex-col items-center hidden">
+                <div class="operations-result flex flex-col items-center ">
                     <div class="img-container flex justify-center lg:m-8 ">
                         <img class="w-1/2 lg:w-3/4" src="./images/img-operations.jpg" alt="">
                     </div>
@@ -125,7 +152,7 @@
                 
                 </div>
                 <!-- table operations -->
-                <div class="container-table flex h-auto w-full ">
+                <div class="container-table flex h-auto w-full  hidden">
                     <table class="w-full ">
                        <thead class="w-full hidden md:flex ">
                            <tr class="w-full flex justify-between my-3">
@@ -165,7 +192,7 @@
 
 
         <!-- new operations -->
-        <div class="container-new-operation drop-shadow-lg	" id="new-operation">
+        <div class="drop-shadow-lg hidden	" id="container-new-operation">
             <div class="new-operation bg-gray-50  h-auto p-8 rounded-md  m-8">
                 <div class="text-new-operation">
                     <h2 class="font-bold text-2xl w-full h-8 my-10">Nueva Operación</h2>
@@ -211,10 +238,10 @@
             </div>
         </div>
         <!-- categorys -->
-        <div class="container-category drop-shadow-lg h-auto">
+        <div class="drop-shadow-lg h-auto hidden" id="container-category">
             <div class="category bg-gray-50 flex flex-col h-auto p-8 rounded-md m-8">
                 <div class="text-add-category flex flex-col">
-                    <h2 class="font-bold text-2xl w-full h-8 my-10">Categorías</h2>
+                    <h2 class="font-bold text-2xl w-full h-8 mb-10">Categorías</h2>
                 </div>
                 <div class="flex">
                     <div class="flex flex-col w-3/4">
@@ -285,10 +312,10 @@
         </div>
 
         <!-- report -->
-        <div class="container-report lg:m-36 drop-shadow-lg h-auto	" id="container-report">
+        <div class="drop-shadow-lg h-auto hidden	" id="container-report">
             <div class="report bg-gray-50  h-auto p-8 rounded-md  m-8 ">
                 <div class="text-report px-2">
-                    <h2 class="font-bold text-3xl w-full h-8 mt-10">Reportes</h2>
+                    <h2 class="font-bold text-3xl w-full h-8 mt-2">Reportes</h2>
                 </div>
                 <div>
                     <h3 class="font-bold text-2xl py-5 px-2">Resumen</h3>
@@ -324,11 +351,11 @@
         
     <!-- Category Totals -->
    
-            <div class="text-report px-2">
+            <div class="text-report px-2" id="container-category-total">
                 <h2 class="font-bold text-2xl w-full h-8 mt-10">Totales por Categoría</h2>
             </div>
             <div class="container-table-category-total w-full h-auto py-5 ">
-                <table class=" w-full border-separate border-spacing-2  text-sm text-left	">
+                <table class=" w-full border-separate border-spacing-2  text-sm text-left md:text-lg	">
                     <thead>
                         <th class="px-2 ">Categoría</th>
                         <th class="px-2 text-right ">Ganancias</th>
@@ -361,11 +388,11 @@
             
     <!-- Month Total -->
   
-            <div class="text-report px-2">
+            <div class="text-report px-2" id="container-month-total">
                 <h2 class="font-bold text-2xl w-full h-8 mt-10">Total por mes</h2>
             </div>
             <div class="container-table-month-total h-auto py-5 ">
-                <table class=" w-full  border-separate border-spacing-2  text-left	">
+                <table class=" w-full  border-separate border-spacing-2 text-sm text-left md:text-lg	">
                     <thead class="w-11/12">
                         <tr>
                             <th class="px-2 ">Mes</th>
@@ -375,7 +402,7 @@
                         </tr>
                     </thead>
                     <tbody class="">
-                        <tr class="">
+                        <tr class="text-sm md:text-lg">
                             <td class="px-2">03/2023</td>
                             <td class="px-2 text-right  text-green-600">$2000</td>
                             <td class="px-2 text-right  text-red-600">$500</td>
