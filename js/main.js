@@ -126,13 +126,31 @@ const deleteOperation = (id) => {
     
 }
 
+const totalGanancias = () => {
+    const ganancias = getData("operations").filter(operation => operation.type === "ganancia")
+    console.log(ganancias)
+    let acc = 0
+     for (const {amount} of ganancias){
+        acc += parseInt(amount)
+     }
+     return acc
+}
+
+const renderBalance = () =>{
+    $("#ganancia-total").innerHTML += `+$ ${totalGanancias()}` 
+}
+
+
+
+
 
 // Events - - Initialize
 const initializeApp = () => {
     setData("operations", allOperations)
     setData("categories", allCategories)
     renderOperation(allOperations)
-    
+    totalGanancias()
+    renderBalance()
     
     
 // events nav-bar
