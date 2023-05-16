@@ -59,27 +59,28 @@ const addOperation = () => {
     const newOperation = saveOperation()
     currentOperation.push(newOperation)
     setData("operations", currentOperation)
-    
 }
-const renderOperation = (operations) => {
 
+const renderOperation = (operations) => {
     cleanContainer("#table-operation")
     if(operations.length){
        for (const { id, description, category, date, type, amount} of operations){
+           const categoryColor = type === "ganancia" ? "text-green-600" : "text-red-600"
+           const categorySign = type === "ganancia" ? "+" : "-"
             hideElement("#none-operation")
             $("#table-operation").innerHTML += `
             <tr class="w-full md:flex md:justify-between  md:border md:border-slate-300 md:p-3 md:align-left ">
-            <td class="px-2 md:w-1/3 ">${description}</td>
-                                    <td class="px-2 flex justify-end md:w-1/4 md:justify-start "><span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">${category}</span></td>
-                                    <td class="px-2 text-right  md:flex md: justify-end hidden md:w-1/6">${date}</td>
-                                    <td id= "price" class="px-2 text-green-600 hidden md:flex md:w-1/6 justify-end  text-right font-bold ">$ ${amount} </td> 
-                                    <td class="flex px-2 hidden md:flex md:w-1/5 justify-end">
+            <td class="px-2 md:w-1/4 ">${description}</td>
+                                    <td class="px-2 flex justify-end md:w-1/5 md:justify-start "><span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">${category}</span></td>
+                                    <td class="px-2 text-right text-sm md:flex md: justify-end hidden md:w-1/5">${date}</td>
+                                    <td id= "price" class="px-2  hidden md:flex md:w-1/5 justify-end  text-right ${categoryColor} font-bold ">$ ${categorySign} ${amount} </td> 
+                                    <td class="flex px-2 hidden md:flex md:w-1/6 justify-end">
                                         <button ><i class="fa-solid flex fa-pencil text-sm text-gray-600 mx-2"></i></button>
                                         <button onclick="showElement('#modal-open'), deleteModalOperation('${id}')"><i class="fa-solid flex fa-trash text-sm text-gray-600 mx-2 "></i></button>
                                     </td>
                                     </tr>
                                     <tr class="operation-mobile">
-                                    <td class="px-2 text-left text-2xl  my-5 md:hidden font-bold text-green-600">$ ${amount}</td>
+                                    <td class="px-2 text-left text-2xl  my-5 md:hidden font-bold ${categoryColor}">$ ${categorySign} ${amount}</td>
                                     <td class="flex px-2 md:hidden  my-5 justify-end">
                                     <button><i class="fa-solid flex fa-pencil text-sm 	 text-gray-600 mx-2"></i></button>
                                     <button onclick="showElement('#modal-open'), deleteModalOperation('${id}')"><i class="fa-solid flex fa-trash text-sm text-gray-600 mx-2 "></i></button>
@@ -88,26 +89,12 @@ const renderOperation = (operations) => {
             `
         }
     }
+    else {
+        hideElement("#container-table-operation")
+    }
 }
 
-// const filters = () => {
-//     const filterType = $("#type-operation").value
-//     const filterOfType = allOperations.filter(operation => {
-//         if (filterType === "todos"){
-//         return operation
-//         }
-//         return filterType === operation.type
-//     })
-//     const filterCategory = $("#categories").value
-//     const filterOfCategory = filterOfType.filter(operation =>{
-//         if (filterCategory === "todos"){
-//             return operation
-//         }
-//         return filterCategory === operation.categories
-//     })
-//     return filterOfCategory
-// }
-
+// modal confirm delete operation
 const deleteModalOperation = (id) => {
     $("#btn-delete-operation").setAttribute("data-id", id)
     $("#btn-close-modal-operation").addEventListener("click", () => {
@@ -123,26 +110,36 @@ const deleteModalOperation = (id) => {
 const deleteOperation = (id) => {
     const currentOperation = getData("operations").filter(operation => operation.id !== id )
     setData("operations", currentOperation)
-    
 }
+
 
 const totalGanancias = () => {
     const ganancias = getData("operations").filter(operation => operation.type === "ganancia")
-    console.log(ganancias)
     let acc = 0
      for (const {amount} of ganancias){
         acc += parseInt(amount)
      }
      return acc
 }
+const totalGastos = () => {
+    const gastos = getData("operations").filter(operation => operation.type === "gasto")
+    let acc = 0
+    for (const { amount } of gastos){
+        acc += parseInt(amount)
+    }
+    return acc
+}
+
+const totalBalance = () => totalGanancias() - totalGastos()
+
+
 
 const renderBalance = () =>{
     $("#ganancia-total").innerHTML += `+$ ${totalGanancias()}` 
+    $("#gasto-total").innerHTML += `-$ ${totalGastos()}`
+    $("#balance-total").innerHTML += `$ ${totalBalance()}`
+    
 }
-
-
-
-
 
 // Events - - Initialize
 const initializeApp = () => {
@@ -150,6 +147,8 @@ const initializeApp = () => {
     setData("categories", allCategories)
     renderOperation(allOperations)
     totalGanancias()
+    totalGastos()
+    totalBalance()
     renderBalance()
     
     
