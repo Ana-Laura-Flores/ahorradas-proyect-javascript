@@ -44,9 +44,10 @@ const categoriesDefault = [
 const allOperations = getData("operations") || []
 const allCategories = getData("categories") || categoriesDefault
 //operations function
-const saveOperation = () => {
+
+const saveOperation = (operationId) => {
     return {
-        id: randomId(),
+        id: operationId ? operationId : randomId(),
         description: $("#description-data").value,
         amount: $("#amount-data").value,
         type: $("#type-operation").value,
@@ -60,10 +61,13 @@ const addOperation = () => {
     currentOperation.push(newOperation)
     setData("operations", currentOperation)
 }
+const confirmAddOperation = () => {
+    $("#confirm-add-operation").innerHTML = "tu operacion fue guardada con exito"
+}
 
 const renderOperation = (operations) => {
     cleanContainer("#table-operation")
-    if(operations.length){
+    if(operations.length) {
        for (const { id, description, category, date, type, amount} of operations){
            const categoryColor = type === "ganancia" ? "text-green-600" : "text-red-600"
            const categorySign = type === "ganancia" ? "+" : "-"
@@ -75,14 +79,14 @@ const renderOperation = (operations) => {
                                     <td class="px-2 text-right text-sm md:flex md: justify-end hidden md:w-1/5">${date}</td>
                                     <td id= "price" class="px-2  hidden md:flex md:w-1/5 justify-end  text-right ${categoryColor} font-bold ">$ ${categorySign} ${amount} </td> 
                                     <td class="flex px-2 hidden md:flex md:w-1/6 justify-end">
-                                        <button ><i class="fa-solid flex fa-pencil text-sm text-gray-600 mx-2"></i></button>
+                                        <button onclick="showElement('#modal-new-operation'), editFormOperation('${id}')"><i class="fa-solid flex fa-pencil text-sm text-gray-600 mx-2"></i></button>
                                         <button onclick="showElement('#modal-open'), deleteModalOperation('${id}')"><i class="fa-solid flex fa-trash text-sm text-gray-600 mx-2 "></i></button>
                                     </td>
                                     </tr>
                                     <tr class="operation-mobile">
                                     <td class="px-2 text-left text-2xl  my-5 md:hidden font-bold ${categoryColor}">$ ${categorySign} ${amount}</td>
                                     <td class="flex px-2 md:hidden  my-5 justify-end">
-                                    <button><i class="fa-solid flex fa-pencil text-sm 	 text-gray-600 mx-2"></i></button>
+                                    <button onclick="showElement('#modal-new-operation'), editFormOperation('${id}')"><i class="fa-solid flex fa-pencil text-sm 	 text-gray-600 mx-2"></i></button>
                                     <button onclick="showElement('#modal-open'), deleteModalOperation('${id}')"><i class="fa-solid flex fa-trash text-sm text-gray-600 mx-2 "></i></button>
                                     </td>
                                 </tr>
@@ -111,32 +115,58 @@ const deleteOperation = (id) => {
     const currentOperation = getData("operations").filter(operation => operation.id !== id )
     setData("operations", currentOperation)
 }
-
-
-const totalGanancias = () => {
-    const ganancias = getData("operations").filter(operation => operation.type === "ganancia")
-    let acc = 0
-     for (const {amount} of ganancias){
-        acc += parseInt(amount)
-     }
-     return acc
+const editOperation = () => {
+    const operationId = $("#btn-edit-operation").getAttribute("data-id")
+    const editedOperation = getData("operations").map(operation => {
+        if(operation.id === operationId){
+            return saveOperation(operation.id)
+        }
+        return operation
+    })
+    setData("operations", editedOperation)
 }
-const totalGastos = () => {
-    const gastos = getData("operations").filter(operation => operation.type === "gasto")
-    let acc = 0
-    for (const { amount } of gastos){
-        acc += parseInt(amount)
+    
+
+const editFormOperation = (id) => {
+    hideElement("#btn-add-operation")
+    showElement("#btn-edit-operation")
+    $("#title-operation").innerHTML = "Editar Operación"
+    const currentOperation = getData("operations").find(operation => operation.id === id)
+    $("#btn-edit-operation").setAttribute("data-id", id)
+    $("#description-data").value = currentOperation.description
+    $("#amount-data").value = currentOperation.amount
+    $("#type-operation").value = currentOperation.type
+    $("#categories").value = currentOperation.category
+    $("#date").value = currentOperation.date
+}
+
+const total = (operations, categorie) => {
+   const totalAmount = getData(operations).filter(operation => operation.type === categorie)
+    
+            let acc = 0
+             for (const {amount} of totalAmount){
+                acc += parseInt(amount)
+               }
+               return acc
     }
-    return acc
-}
+ 
 
-const totalBalance = () => totalGanancias() - totalGastos()
+// const totalGastos = () => {
+//     const gastos = getData("operations").filter(operation => operation.type === "gasto")
+//     let acc = 0
+//     for (const { amount } of gastos){
+//         acc += parseInt(amount)
+//     }
+//     return acc
+// }
+
+const totalBalance = () => total("operations", "ganancia") - total("operations", "gasto")
 
 
 
 const renderBalance = () =>{
-    $("#ganancia-total").innerHTML += `+$ ${totalGanancias()}` 
-    $("#gasto-total").innerHTML += `-$ ${totalGastos()}`
+    $("#ganancia-total").innerHTML += `+$ ${total("operations", "ganancia")}` 
+    $("#gasto-total").innerHTML += `-$ ${total("operations", "gasto")}`
     $("#balance-total").innerHTML += `$ ${totalBalance()}`
     
 }
@@ -146,8 +176,8 @@ const initializeApp = () => {
     setData("operations", allOperations)
     setData("categories", allCategories)
     renderOperation(allOperations)
-    totalGanancias()
-    totalGastos()
+    total("operations", "ganancia")
+    total("operations", "gasto")
     totalBalance()
     renderBalance()
     
@@ -192,21 +222,31 @@ for (const btn of $$(".btn-reports")){
     })
     $("#btn-new-operation").addEventListener("click", (e) =>{
         e.preventDefault()
-        showElement("#container-new-operation")
-        hideElement("#container-balance")
-        
+        showElement("#modal-new-operation")
+               
     })
     // open new opertation
-    $("#btn-new-operation").addEventListener("click", () => {
-        showElement("#container-new-operation")
-        hideElement("#container-balance")
-    })
+    // $("#btn-new-operation").addEventListener("click", () => {
+    //     showElement("#container-new-operation")
+    //     hideElement("#container-balance")
+    // })
     //add operation
     $("#btn-add-operation").addEventListener("click", (e) => {
         e.preventDefault()
         // if (validateForm()) {
             addOperation()
+            confirmAddOperation()
+            
         // }
+    })
+    $("#btn-edit-operation").addEventListener("click", (e) => {
+        e.preventDefault()
+        editOperation()
+        renderOperation(allOperations)
+        hideElement("#modal-new-operation")
+        window.location.reload()
+       
+        
     })
    
 }
