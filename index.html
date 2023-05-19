@@ -162,8 +162,8 @@
                            <tr class="w-full flex justify-between my-3">
                                 <th class="px-2 md:align-left md:w-1/4  md:text-left">Descripción</th>
                                 <th class="px-2 md:w-1/5 md:text-left">Categoría</th>
-                                <th class="px-2 hidden md:flex md:justify-end md:w-1/5	">Fecha</th>
-                                <th class="px-2 md:w-1/5 md:text-right	">Monto</th>
+                                <th class="px-2 hidden md:flex md:justify-end md:w-1/5">Fecha</th>
+                                <th class="px-2 md:w-1/5 md:text-right">Monto</th>
                                 <th class="px-2 md:flex md:justify-end md:w-1/6 md:text-right">Acciones</th>
                             </tr>
                        </thead>
@@ -208,13 +208,8 @@
                                                     </div>
                                                     <div class="category-container">
                                                         <label class="text-lg font-bold text-gray-600	pt-5" for="category">Categoría</label>
-                                                        <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="type" id="categories">
-                                                            <option value="comidas">Comidas</option>
-                                                            <option value="ganancias">Servicios</option>
-                                                            <option value="gastos">Salidas</option>
-                                                            <option value="educacion">Educación</option>
-                                                            <option value="transporte">Transporte</option>
-                                                            <option value="trabajo">Trabajo</option>
+                                                        <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="type" id="categories-name">
+                                                            <!--  add categories with js -->
                                                         </select>
                                                     </div>
                                                     <div class="date-container">
@@ -332,66 +327,19 @@
                 <div class="flex">
                     <div class="flex flex-col w-3/4">
                         <label class="text-lg font-bold text-gray-600" for="category-news">Nombre</label>
-                        <input class="border-solid border-2 w-full my-2 p-2 rounded-md" type="number" name="" id="">
+                        <input class="border-solid border-2 w-full my-2 p-2 rounded-md" type="text" name="" id="categorie-name">
                     </div>
                 
                     <div class="container-btn-newcategory w-1/4 ml-5 my-2 h-24 flex items-center justify-end">
-                        <button class="font-bold text-sm text-white w-full bg-[#D22779] p-2 rounded-md justify-end	">Agregar</button>
+                        <button class="font-bold text-sm text-white w-full bg-[#D22779] p-2 rounded-md justify-end	" id="add-categorie">Agregar</button>
                     </div>                    
                 </div>
-                <div class="container-cat flex w-full justify-between my-2 lg:pr-8 items-center">
-                    <div class="rounded-md bg-[#EEAECD] p-2">
-                        <h3 class="text-xs font-bold text-center text-[#D22779]">Comidas</h3>
-                    </div>
-                    <div class="container-modify flex justify-end items-end w-1/2">
-                        <a href="http://"><i class="fa-solid flex fa-pencil text-sm text-gray-600 px-5 "><p class="font-sans font-normal">&nbsp;editar</p></i></a>
-                        <a href="http://"><i class="fa-solid flex fa-trash text-sm text-gray-600 "><p class="font-sans font-normal">&nbsp;eliminar</p></i></a>
-                    </div>
-                </div>
-                <div class="container-cat flex w-full justify-between my-2 items-center lg:pr-8	">
-                    <div class="rounded-md bg-[#EEAECD] p-2">
-                        <h3 class="text-xs font-bold text-center text-[#D22779]">Servicios</h3>
-                    </div>
-                    <div class="container-modify flex justify-end items-end w-1/2">
-                        <a href="http://"><i class="fa-solid flex fa-pencil text-sm text-gray-600 px-5 "><p class="font-sans font-normal">&nbsp;editar</p></i></a>
-                        <a href="http://"><i class="fa-solid flex fa-trash text-sm text-gray-600 "><p class="font-sans font-normal">&nbsp;eliminar</p></i></a>
-                    </div>
-                </div>
-                <div class="container-cat flex w-full justify-between my-2 items-center lg:pr-8">
-                    <div class="rounded-md bg-[#EEAECD] p-2">
-                        <h3 class="text-xs font-bold text-center text-[#D22779]">Salidas</h3>
-                    </div>
-                    <div class="container-modify flex justify-end items-end w-1/2">
-                        <a href="http://"><i class="fa-solid flex fa-pencil text-sm text-gray-600 px-5 "><p class="font-sans font-normal">&nbsp;editar</p></i></a>
-                        <a href="http://"><i class="fa-solid flex fa-trash text-sm text-gray-600 "><p class="font-sans font-normal">&nbsp;eliminar</p></i></a>
-                    </div>
-                </div>
-                <div class="container-cat flex w-full justify-between my-2 items-center	lg:pr-8">
-                    <div class="rounded-md bg-[#EEAECD] p-2">
-                        <h3 class="text-xs font-bold text-center text-[#D22779]">Educación</h3>
-                    </div>
-                    <div class="container-modify flex justify-end items-end w-1/2">
-                        <a href="http://"><i class="fa-solid flex fa-pencil text-sm text-gray-600 px-5 "><p class="font-sans font-normal">&nbsp;editar</p></i></a>
-                        <a href="http://"><i class="fa-solid flex fa-trash text-sm text-gray-600 "><p class="font-sans font-normal">&nbsp;eliminar</p></i></a>
-                    </div>
-                </div>
-                <div class="container-cat flex w-full justify-between my-2 items-center	lg:pr-8">
-                    <div class="rounded-md bg-[#EEAECD] p-2">
-                        <h3 class="text-xs font-bold text-center text-[#D22779]">Transporte</h3>
-                    </div>
-                    <div class="container-modify flex justify-end items-end w-1/2">
-                        <a href="http://"><i class="fa-solid flex fa-pencil text-sm text-gray-600 px-5 "><p class="font-sans font-normal">&nbsp;editar</p></i></a>
-                        <a href="http://"><i class="fa-solid flex fa-trash text-sm text-gray-600 "><p class="font-sans font-normal">&nbsp;eliminar</p></i></a>
-                    </div>
-                </div>
-                <div class="container-cat flex w-full justify-between my-2 items-center lg:pr-8	">
-                    <div class="rounded-md bg-[#EEAECD] p-2">
-                        <h3 class="text-xs font-bold text-center text-[#D22779]">Trabajo</h3>
-                    </div>
-                    <div class="container-modify flex justify-end items-end w-1/2">
-                        <a href="http://"><i class="fa-solid flex fa-pencil text-sm text-gray-600 px-5 "><p class="font-sans font-normal">&nbsp;editar</p></i></a>
-                        <a href="http://"><i class="fa-solid flex fa-trash text-sm text-gray-600 "><p class="font-sans font-normal">&nbsp;eliminar</p></i></a>
-                    </div>
+                <table>
+                    <tbody class="container-cat flex flex-col w-full justify-between my-2 lg:pr-8 items-center" id="categories-list">
+                        <!-- add categories with js -->
+                    </tbody>
+                </table>
+                
                 </div>
                 
             </div>
