@@ -46,7 +46,7 @@ const allCategories = getData("categories") || categoriesDefault
 //operations function
 
 const saveOperation = (operationId) => {
-    const categoriesId = $("#categorie-name").options[$("#categorie-name").selectedIndex].getAttribute("data-id")
+    const categoriesId = $("#categories-name").options[$("#categories-name").selectedIndex].getAttribute("data-id")
     return {
         id: operationId ? operationId : randomId(),
         description: $("#description-data").value,
@@ -121,9 +121,12 @@ const renderOperation = (operations) => {
 //render categories 
 const renderCategoriesOptions = (categorys) => {
     cleanContainer("#categories-name")
-    for (const categorie of categorys){
+    for (const { categoriesName, id } of categorys){
         $("#categories-name").innerHTML += `
-        <option value="${categorie.categoriesName}" data-id="${categorie.id}">${categorie.categoriesName}</option>
+        <option value="${id}" data-id="${id}">${categoriesName}</option>
+        `
+        $("#filter-category").innerHTML += `
+        <option value="${id}"data-id="${id}">${categoriesName}</option>
         `
     }
 }
@@ -131,16 +134,16 @@ const renderCategoriesOptions = (categorys) => {
 // render table categories
 const renderCategoriesTable = (categorys) => {
     cleanContainer("#categories-list")
-    for (const categorie of categorys) {
+    for (const { categoriesName, id } of categorys) {
         $("#categories-list").innerHTML += `
         <tr class="w-full flex justify-between p-3 align-left ">
             <td class="px-2 flex justify-end md:w-1/5 md:justify-start ">
-                <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">${categorie.categoriesName}
+                <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">${categoriesName}
                 </span>
             </td>
             <td class="flex">
-                <button><i class="fa-solid flex fa-pencil text-sm text-gray-600 mx-2"></i></button>
-                <button"><i class="fa-solid flex fa-trash text-sm text-gray-600 mx-2 "></i></button>
+                <button onclick="editFormCategories('${id}') " ><i class="fa-solid flex fa-pencil text-sm text-gray-600 mx-2"></i></button>
+                <button onclick="showElement('#modal-open'), deleteModalCategorie('${id}')"><i class="fa-solid flex fa-trash text-sm text-gray-600 mx-2 "></i></button>
             </td>
         </tr>
         `
@@ -155,15 +158,32 @@ const deleteModalOperation = (id) => {
     })
     $("#btn-delete-operation").addEventListener("click", () => {
         const operationId = $("#btn-delete-operation").getAttribute("data-id")
-        deleteOperation(operationId)
+        deleteData(operationId, "operations")
         window.location.reload()
     })
 
 }
-const deleteOperation = (id) => {
-    const currentOperation = getData("operations").filter(operation => operation.id !== id )
-    setData("operations", currentOperation)
+const deleteModalCategorie = (id) => {
+    $("#btn-delete-operation").setAttribute("data-id", id)
+    $("#btn-close-modal-operation").addEventListener("click", () => {
+        hideElement("#modal-open")
+    })
+    $("#btn-delete-operation").addEventListener("click", () => {
+        const operationId = $("#btn-delete-operation").getAttribute("data-id")
+        deleteData(operationId, "categories")
+        
+    })
+
 }
+// const deleteOperation = (id) => {
+//     const currentOperation = getData("operations").filter(operation => operation.id !== id )
+//     setData("operations", currentOperation)
+// }
+const deleteData = (id, type) => {
+    const currentData = getData(type).filter(operation => operation.id !== id )
+    setData(type, currentData)
+}
+
 const editOperation = () => {
     const operationId = $("#btn-edit-operation").getAttribute("data-id")
     const editedOperation = getData("operations").map(operation => {
@@ -185,10 +205,36 @@ const editFormOperation = (id) => {
     $("#description-data").value = currentOperation.description
     $("#amount-data").value = currentOperation.amount
     $("#type-operation").value = currentOperation.type
-    $("#categories").value = currentOperation.category
+    $("#categories-name").value = currentOperation.category
     $("#date").value = currentOperation.date
+    console.log(currentOperation)
 }
-
+const editCategorie = () => {
+    const categoriesId = $("#edit-category").getAttribute("data-id")
+    const editedCategories = getData("categories").map(category => {
+        if(category.id === categoriesId){
+            return saveCategories(category.id)
+        }
+        return category
+    })
+    setData("categories", editedCategories)
+    console.log(editedCategories)
+}
+const editFormCategories = (id) => {
+    showElement("#title-edit-category")
+    hideElement("#title-category")
+    showElement("#container-btn-edit-category")
+    hideElement(".container-btn-newcategory")
+    hideElement("#categories-list")
+    const editedCategories = getData("categories").find(category => category.id === id)
+    $("#edit-category").setAttribute("data-id", id)
+    $("#categorie-name").value = editedCategories.categoriesName
+    console.log(editedCategories)
+    
+}
+// const editedCategories = () => {
+//     $("categories-name").innerHTML = `${categorie.categoriesName}`
+// }
 const total = (operations, categorie) => {
    const totalAmount = getData(operations).filter(operation => operation.type === categorie)
     
@@ -209,6 +255,8 @@ const renderBalance = () =>{
     
 }
 
+// functions reports
+
 // Events - - Initialize
 const initializeApp = () => {
     setData("operations", allOperations)
@@ -220,10 +268,8 @@ const initializeApp = () => {
     total("operations", "gasto")
     totalBalance()
     renderBalance()
-    getData("operations")
-    getData("categories")
-    
-    
+  
+        
     
 // events nav-bar
 for (const btn of $$(".btn-balance")){
@@ -292,7 +338,61 @@ for (const btn of $$(".btn-reports")){
         renderCategoriesTable(currentCategories)
         
     })
-   
+
+    $("#edit-category").addEventListener("click", (e) => {
+        e.preventDefault()
+        editCategorie("categories")
+        const currentCategories = getData("categories")
+        renderCategoriesOptions(currentCategories)
+        renderCategoriesTable(currentCategories)
+        $("#categorie-name").value = " "
+       
+    })
+    $("#cancel-edit-category").addEventListener("click", () => {
+        showElement("#title-category")
+        hideElement("#title-edit-category")
+        showElement(".container-btn-newcategory")
+        hideElement("#container-btn-edit-category")
+        showElement("#categories-list")
+        const currentCategories = getData("categories")
+        renderCategoriesOptions(currentCategories)
+        renderCategoriesTable(currentCategories)
+        $("#categorie-name").value = " "
+    })
+
+    
+    // $("#btn-edit-pencil").addEventListener("click", (e) => {
+    //     e.preventDefault()
+    //     const categoriesId = $("#btn-edit-pencil").getAttribute("data-id")
+    //     editCategories()
+    //     // renderCategoriesTable(allCategories)
+    //     // renderCategoriesOptions(allCategories)
+       
+    //})
+    // $("#btn-delete-trash").addEventListener("click", () => {
+    //     const operationId = getData("categories").filter(category => category.id !== id )
+    //     setData("categories", operationId)
+    //     deleteData(operationId, "categories")
+    //     renderCategoriesTable("categories")
+    // }) 
+    //const deleteOperation = (id) => {
+        //     const currentOperation = getData("operations").filter(operation => operation.id !== id )
+        //     setData("operations", currentOperation)
+        // const currentCategories = getData("categories")
+        // renderCategoriesTable(currentCategories)
+        // renderCategoriesOptions(currentCategories)
+       
+    
+    // $("#filter-category").addEventListener("input", (e) =>{
+    //     const categoriesId = e.target.value
+    //     const currentOperation = getData("operations")
+    //     if(!categoriesId){
+    //         renderOperation(currentOperation)
+    //     } else {
+    //         const filteredOperations = currentOperation.filter(operation => operation.categoriesName === categoriesId)
+    //         renderOperation(filteredOperations)
+    //     }
+    // })
 }
 
 window.addEventListener("load", initializeApp)
