@@ -380,40 +380,38 @@
                     </div>
                 
                 </div>
-
-                <div>
-                    <h3 class="font-bold text-2xl py-5 px-2">Resumen</h3>
-                </div>
-                <div class="resumen-container flex-col px-2">
-                    <div class="revenue flex my-5 ">
-                        <div class="w-1/2">Categoría con mayor ganancia</div>
-                        <div class="w-1/4 text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1" id="higher-cat"></span> </div>
-                        <div class="w-1/4 text-right font-bold text-green-600" id="higher-amount">+$ </div>
+                <div class="hidden" id="container-reports">
+                    <div>
+                        <h3 class="font-bold text-2xl py-5 px-2">Resumen</h3>
                     </div>
-                    <div class="bills flex my-5">
-                        <div class="w-1/2">Categoría con mayor gasto</div>
-                        <div class="w-1/4 text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1" id="higher-spending"></span> </div>
-                        <div class="w-1/4 text-right font-bold text-red-600" id="amount-spending">-$ </div>
+                    <div class="resumen-container flex-col px-2">
+                        <div class="revenue flex my-5 ">
+                            <div class="w-1/2">Categoría con mayor ganancia</div>
+                            <div class="w-1/4 text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1" id="higher-cat"></span> </div>
+                            <div class="w-1/4 text-right font-bold text-green-600" id="higher-amount">+$ </div>
+                        </div>
+                        <div class="bills flex my-5">
+                            <div class="w-1/2">Categoría con mayor gasto</div>
+                            <div class="w-1/4 text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1" id="higher-spending"></span> </div>
+                            <div class="w-1/4 text-right font-bold text-red-600" id="amount-spending">-$ </div>
+                        </div>
+                        <div class="greater-balance flex my-5">
+                            <div class="w-1/2">Categoría con mayor balance</div>
+                            <div class="w-1/4 text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">Trabajo</span> </div>
+                            <div class="w-1/4 text-right font-bold text-gray-600">$200500</div>
+                        </div>
+                        <div class="greater-revenue flex my-5">
+                            <div class="w-1/2 ">Mes con más ganancia</div>
+                            <div class="w-1/4 text-sm text-right"> 2023/04/27 </div>
+                            <div class="w-1/4 text-right font-bold text-gray-600">$200500</div>
+                        </div>
+                        <div class="greater-bills flex my-5">
+                            <div class="w-1/2 ">Mes con más gasto</div>
+                            <div class="w-1/4 text-sm text-right"> 2023/04/27 </div>
+                            <div class="w-1/4 text-right font-bold text-gray-600">$200500</div>
+                        </div>
                     </div>
-                    <div class="greater-balance flex my-5">
-                        <div class="w-1/2">Categoría con mayor balance</div>
-                        <div class="w-1/4 text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">Trabajo</span> </div>
-                        <div class="w-1/4 text-right font-bold text-gray-600">$200500</div>
-                    </div>
-                    <div class="greater-revenue flex my-5">
-                        <div class="w-1/2 ">Mes con más ganancia</div>
-                        <div class="w-1/4 text-sm text-right"> 2023/04/27 </div>
-                        <div class="w-1/4 text-right font-bold text-gray-600">$200500</div>
-                    </div>
-                    <div class="greater-bills flex my-5">
-                        <div class="w-1/2 ">Mes con más gasto</div>
-                        <div class="w-1/4 text-sm text-right"> 2023/04/27 </div>
-                        <div class="w-1/4 text-right font-bold text-gray-600">$200500</div>
-                    </div>
-                </div>
-           
-        
-    <!-- Category Totals -->
+                    <!-- Category Totals -->
    
             <div class="text-report px-2" id="container-category-total">
                 <h2 class="font-bold text-2xl w-full h-8 mt-10">Totales por Categoría</h2>
@@ -488,6 +486,10 @@
                 </table>
             </div>
             </div>
+                </div>
+           
+        
+    
         </div>
      
     </main>

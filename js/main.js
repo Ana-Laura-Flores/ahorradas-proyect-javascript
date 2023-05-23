@@ -262,56 +262,69 @@ const renderBalance = () =>{
     
     const totalOfCategory = getData("operations")
     const nameCategory = getData("categories")
-    for (const {categoriesName, id} of nameCategory){
-        let acc = 0
-        totalOfCategory.filter(({ category, amount, type }) => {
-            if(category === id & type === operationType){
-                acc += parseInt(amount)
-            }
-        categoriesTotal[categoriesName] = acc
-        })
-        
-    }
-    let higher = " "
-    let totalAmount = 0
-    for (const key in categoriesTotal){
-        if (categoriesTotal[key] > totalAmount){
-            return {
-                totalAmount: categoriesTotal[key],
-                higher: key
+    if(totalOfCategory.length > 1){
+        hideElement("#none-reports")
+        showElement("#container-reports")
+        for (const {categoriesName, id} of nameCategory){
+            let acc = 0
+            totalOfCategory.filter(({ category, amount, type }) => {
+                if(category === id & type === operationType){
+                    acc += parseInt(amount)
+                }
+            categoriesTotal[categoriesName] = acc
+            })
+            
+        }
+        let higher = " "
+        let totalAmount = 0
+        for (const key in categoriesTotal){
+            if (categoriesTotal[key] > totalAmount){
+                return {
+                    totalAmount: categoriesTotal[key],
+                    higher: key
+                }
             }
         }
     }
+    else {
+        showElement("#none-reports")
+        hideElement("#container-reports")
+    }
   
 }       
-console.log(totalCategory("gasto"))
-console.log(totalCategory("ganancia"))
 
 //render reports // 
 const renderhigher = () => {
-    $("#higher-cat").innerHTML = `${totalCategory("ganancia").higher}`
-    $("#higher-amount").innerHTML += `${totalCategory("ganancia").totalAmount}`
+    const operations = getData("operations")
+    if (operations.length > 1){
+        $("#higher-cat").innerHTML = `${totalCategory("ganancia").higher}`
+        $("#higher-amount").innerHTML += `${totalCategory("ganancia").totalAmount}`
+    }
+    
 }
 const renderHigherSpending = () => {
-    $("#higher-spending").innerHTML = `${totalCategory("gasto").higher}`
-    $("#amount-spending").innerHTML += `${totalCategory("gasto").totalAmount}`
+    const operations = getData("operations")
+    if (operations.length > 1){
+        $("#higher-spending").innerHTML = `${totalCategory("gasto").higher}`
+        $("#amount-spending").innerHTML += `${totalCategory("gasto").totalAmount}`
+    }
 }
 
 // function operation for type "gasto" "ganancia"
-const operationForType = (operationType) => {
-    const totalOfCategory = getData("operations")
-    const nameCategory = getData("categories")
-    let acc = 0
-    const operationsType = totalOfCategory.filter(( operation => operation.type === operationType))
-    operationsType.filter(({ amount }) => acc += parseInt(amount))
-    return acc
-}
-console.log(operationForType("gasto"))
-console.log(operationForType("ganancia"))
+// const operationForType = (operationType) => {
+//     const totalOfCategory = getData("operations")
+//     const nameCategory = getData("categories")
+//     let acc = 0
+//     const operationsType = totalOfCategory.filter(( operation => operation.type === operationType))
+//     operationsType.filter(({ amount }) => acc += parseInt(amount))
+//     return acc
+// }
+// console.log(operationForType("gasto"))
+// operationForType("ganancia")
     
-const categoryTotalOperations = () => {
+// const categoryTotalOperations = () => {
 
-}   
+// }   
     
 
 /*
