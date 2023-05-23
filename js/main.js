@@ -151,34 +151,39 @@ const renderCategoriesTable = (categorys) => {
 }
 
 // modal confirm delete operation
-const deleteModalOperation = (id) => {
-    $("#btn-delete-operation").setAttribute("data-id", id)
-    $("#btn-close-modal-operation").addEventListener("click", () => {
-        hideElement("#modal-open")
-    })
-    $("#btn-delete-operation").addEventListener("click", () => {
-        const operationId = $("#btn-delete-operation").getAttribute("data-id")
-        deleteData(operationId, "operations")
-        window.location.reload()
-    })
+ const deleteModalOperation = (id) => {
+     $("#btn-delete-operation").setAttribute("data-id", id)
+     $("#btn-close-modal-operation").addEventListener("click", () => {
+         hideElement("#modal-open")
+     })
+     $("#btn-delete-operation").addEventListener("click", () => {
+         const operationId = $("#btn-delete-operation").getAttribute("data-id")
+         deleteData(operationId, "operations")
+         window.location.reload()
+     })
 
-}
+ }
 const deleteModalCategorie = (id) => {
-    $("#btn-delete-operation").setAttribute("data-id", id)
+    showElement("#btn-delete-category")
+    hideElement("#btn-delete-operation")
+    $("#btn-delete-category").setAttribute("data-id", id)
     $("#btn-close-modal-operation").addEventListener("click", () => {
         hideElement("#modal-open")
     })
-    $("#btn-delete-operation").addEventListener("click", () => {
-        const operationId = $("#btn-delete-operation").getAttribute("data-id")
+    $("#btn-delete-category").addEventListener("click", () => {
+        const operationId = $("#btn-delete-category").getAttribute("data-id")
         deleteData(operationId, "categories")
+        renderCategoriesOptions(getData("categories"))
+        renderCategoriesTable(getData("categories"))
+        hideElement("#modal-open")
         
     })
 
 }
-// const deleteOperation = (id) => {
-//     const currentOperation = getData("operations").filter(operation => operation.id !== id )
-//     setData("operations", currentOperation)
-// }
+ const deleteOperation = (id) => {
+     const currentOperation = getData("operations").filter(operation => operation.id !== id )
+     setData("operations", currentOperation)
+ }
 const deleteData = (id, type) => {
     const currentData = getData(type).filter(operation => operation.id !== id )
     setData(type, currentData)
@@ -252,14 +257,12 @@ const renderBalance = () =>{
     $("#ganancia-total").innerHTML += `+$ ${total("operations", "ganancia")}` 
     $("#gasto-total").innerHTML += `-$ ${total("operations", "gasto")}`
     $("#balance-total").innerHTML += `$ ${totalBalance()}`
-    
 }
 
 // functions reports
 
  const totalCategory = (operationType) => {
     const categoriesTotal = {}
-    
     const totalOfCategory = getData("operations")
     const nameCategory = getData("categories")
     if(totalOfCategory.length > 1){
@@ -275,6 +278,47 @@ const renderBalance = () =>{
             })
             
         }
+        let higher = " "
+        let totalAmount = 0
+        for (const key in categoriesTotal){
+            if (categoriesTotal[key] > totalAmount){
+                return {
+                    totalAmount: categoriesTotal[key],
+                    higher: key
+                }
+            }
+        }
+    }
+    else {
+        showElement("#none-reports")
+        hideElement("#container-reports")
+    }
+  
+}       
+const totalCategoryBalance = () => {
+    const categoriesTotal = {}
+    const totalOfCategory = getData("operations")
+    const nameCategory = getData("categories")
+    if(totalOfCategory.length > 1){
+        hideElement("#none-reports")
+        showElement("#container-reports")
+        for (const {categoriesName, id} of nameCategory){
+            let accGanancia = 0
+            let accGasto = 0
+            let balance = 0
+            totalOfCategory.filter(({ category, amount, type }) => {
+                if(category === id & type === "ganancia"){
+                    accGanancia += parseInt(amount)
+                }
+                if(category === id & type === "gasto"){
+                    accGasto += parseInt(amount)
+                }
+            balance = accGanancia - accGasto
+            categoriesTotal[categoriesName] = balance
+            })
+            
+        }
+        
         let higher = " "
         let totalAmount = 0
         for (const key in categoriesTotal){
@@ -309,71 +353,15 @@ const renderHigherSpending = () => {
         $("#amount-spending").innerHTML += `${totalCategory("gasto").totalAmount}`
     }
 }
-
-// function operation for type "gasto" "ganancia"
-// const operationForType = (operationType) => {
-//     const totalOfCategory = getData("operations")
-//     const nameCategory = getData("categories")
-//     let acc = 0
-//     const operationsType = totalOfCategory.filter(( operation => operation.type === operationType))
-//     operationsType.filter(({ amount }) => acc += parseInt(amount))
-//     return acc
-// }
-// console.log(operationForType("gasto"))
-// operationForType("ganancia")
-    
-// const categoryTotalOperations = () => {
-
-// }   
-    
-
-/*
-    totalOfCategory.filter (({ category, amount }) => {
-        if(category === id) {
-            acc += parseInt(amount)
-               //total[categoriesName] = acc
-            total[categoriesName] = acc
-        }
-
-    }) 
-    */
-    // const { category, amount } = totalOfCategory
-    // if(category === totalOfCategory.category) {
-    //     acc += amount
-        
-    // }
-    // return total[category] = acc
-    
-    //console.log(totalOfCategory)
-    //total[category] = totalOfCategory.filter (({ category, amount }) => )
-
-
-    /*
-    for (const cadaOperation of totalOfCategory) {
-        const { category } = totalOfCategory
-        total[category] = totalOfCategory.filter(({ category }) => category === cadaOperation.category).length
-      }
-      return total
+const renderHigherBalance = () => {
+    const operations = getData("operations")
+    if (operations.length > 1){
+        $("#higher-balance").innerHTML = `${totalCategoryBalance().higher}`
+        $("#amount-balance-higher").innerHTML += `${totalCategoryBalance().totalAmount}`
     }
-    console.log(totalCategory())
-    */
-//     const { category } = allOperations
-//     let acc = 0
-//     const totalCategory = getData("operations").filter(operation => category === operation.category)
-// }
-/*
-const higherCategory = () => {
-    const totalCategory = getData("operations").filter(operation => operation.category)
-    let ventasTotalesVendedora = 0;
-    const { ventas } = local
-    const ventasPorVendedora = ventas.filter(venta => venta.nombreVendedora === nombre)
-    let acc = 0
-    for (const venta of ventasPorVendedora){
-      acc += precioMaquina (venta.componentes)
-    }
-    return acc
-  };
-*/
+}
+
+
 // Events - - Initialize
 const initializeApp = () => {
     setData("operations", allOperations)
@@ -387,6 +375,10 @@ const initializeApp = () => {
     renderBalance()
     renderhigher()
     renderHigherSpending()
+    renderHigherBalance()
+    
+    
+    
   
         
     
@@ -431,7 +423,6 @@ for (const btn of $$(".btn-reports")){
     $("#btn-new-operation").addEventListener("click", (e) =>{
         e.preventDefault()
         showElement("#modal-new-operation")
-               
     })
     
     $("#btn-add-operation").addEventListener("click", (e) => {
@@ -464,7 +455,7 @@ for (const btn of $$(".btn-reports")){
         const currentCategories = getData("categories")
         renderCategoriesOptions(currentCategories)
         renderCategoriesTable(currentCategories)
-        $("#categorie-name").value = " "
+        showElement("#text-confirm-edit")
        
     })
     $("#cancel-edit-category").addEventListener("click", () => {
@@ -472,11 +463,13 @@ for (const btn of $$(".btn-reports")){
         hideElement("#title-edit-category")
         showElement(".container-btn-newcategory")
         hideElement("#container-btn-edit-category")
+        hideElement("#text-confirm-edit")
         showElement("#categories-list")
         const currentCategories = getData("categories")
         renderCategoriesOptions(currentCategories)
         renderCategoriesTable(currentCategories)
-        $("#categorie-name").value = " "
+        
+       
     })
 
     

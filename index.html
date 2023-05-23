@@ -307,6 +307,7 @@
                             <div class="modal-action md:flex md:flex-row md:justify-end bg-gray-50 px-4 py-3 sm:px-6 sm-flex flex-col mt-3 ">
                                 <button class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-md px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-200 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm " id="btn-close-modal-operation">close</button>
                                 <button class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-md px-4 py-2 bg-red-700 font-medium text-white hover:bg-red-600 focus:outline-none focus:outline-none focus-ring-2 focus:ring-offset-2 focus:ring-red-200 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" id="btn-delete-operation">delete</button>
+                                <button class="w-full hidden inline-flex justify-center rounded-md border border-gray-300 shadow-md px-4 py-2 bg-red-700 font-medium text-white hover:bg-red-600 focus:outline-none focus:outline-none focus-ring-2 focus:ring-offset-2 focus:ring-red-200 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" id="btn-delete-category">delete</button>
                             </div>
                         </div>
                  </div>
@@ -323,6 +324,7 @@
                     <div class="flex flex-col w-3/4">
                         <label class="text-lg font-bold text-gray-600" for="category-news">Nombre</label>
                         <input class="border-solid border-2 w-full my-2 p-2 rounded-md" type="text" name="" id="categorie-name">
+                        <div class=" text-green-600 hidden" id="text-confirm-edit">Se editó correctamente</div>
                             <div class="w-full hidden h-24 flex items-center justify-end" id="container-btn-edit-category">
                                 <button class="font-bold mr-5 drop-shadow-lg text-sm text-[#D22779] w-1/3 bg-white p-2 rounded-md justify-end	" id="cancel-edit-category" >Cancelar</button>
                                 <button class="font-bold  text-sm text-white w-1/3 bg-[#D22779] p-2 rounded-md justify-end	" id="edit-category">Editar</button>
@@ -397,8 +399,8 @@
                         </div>
                         <div class="greater-balance flex my-5">
                             <div class="w-1/2">Categoría con mayor balance</div>
-                            <div class="w-1/4 text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">Trabajo</span> </div>
-                            <div class="w-1/4 text-right font-bold text-gray-600">$200500</div>
+                            <div class="w-1/4 text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1" id="higher-balance"></span> </div>
+                            <div class="w-1/4 text-right font-bold text-gray-600" id="amount-balance-higher">$ </div>
                         </div>
                         <div class="greater-revenue flex my-5">
                             <div class="w-1/2 ">Mes con más ganancia</div>
