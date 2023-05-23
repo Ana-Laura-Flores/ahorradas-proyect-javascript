@@ -235,8 +235,8 @@ const editFormCategories = (id) => {
 // const editedCategories = () => {
 //     $("categories-name").innerHTML = `${categorie.categoriesName}`
 // }
-const total = (operations, categorie) => {
-   const totalAmount = getData(operations).filter(operation => operation.type === categorie)
+const total = (operations, type) => {
+   const totalAmount = getData(operations).filter(operation => operation.type === type)
     
             let acc = 0
              for (const {amount} of totalAmount){
@@ -257,6 +257,110 @@ const renderBalance = () =>{
 
 // functions reports
 
+ const totalCategory = (operationType) => {
+    const categoriesTotal = {}
+    
+    const totalOfCategory = getData("operations")
+    const nameCategory = getData("categories")
+    for (const {categoriesName, id} of nameCategory){
+        let acc = 0
+        totalOfCategory.filter(({ category, amount, type }) => {
+            if(category === id & type === operationType){
+                acc += parseInt(amount)
+            }
+        categoriesTotal[categoriesName] = acc
+        })
+        
+    }
+    let higher = " "
+    let totalAmount = 0
+    for (const key in categoriesTotal){
+        if (categoriesTotal[key] > totalAmount){
+            return {
+                totalAmount: categoriesTotal[key],
+                higher: key
+            }
+        }
+    }
+  
+}       
+console.log(totalCategory("gasto"))
+console.log(totalCategory("ganancia"))
+
+//render reports // 
+const renderhigher = () => {
+    $("#higher-cat").innerHTML = `${totalCategory("ganancia").higher}`
+    $("#higher-amount").innerHTML += `${totalCategory("ganancia").totalAmount}`
+}
+const renderHigherSpending = () => {
+    $("#higher-spending").innerHTML = `${totalCategory("gasto").higher}`
+    $("#amount-spending").innerHTML += `${totalCategory("gasto").totalAmount}`
+}
+
+// function operation for type "gasto" "ganancia"
+const operationForType = (operationType) => {
+    const totalOfCategory = getData("operations")
+    const nameCategory = getData("categories")
+    let acc = 0
+    const operationsType = totalOfCategory.filter(( operation => operation.type === operationType))
+    operationsType.filter(({ amount }) => acc += parseInt(amount))
+    return acc
+}
+console.log(operationForType("gasto"))
+console.log(operationForType("ganancia"))
+    
+const categoryTotalOperations = () => {
+
+}   
+    
+
+/*
+    totalOfCategory.filter (({ category, amount }) => {
+        if(category === id) {
+            acc += parseInt(amount)
+               //total[categoriesName] = acc
+            total[categoriesName] = acc
+        }
+
+    }) 
+    */
+    // const { category, amount } = totalOfCategory
+    // if(category === totalOfCategory.category) {
+    //     acc += amount
+        
+    // }
+    // return total[category] = acc
+    
+    //console.log(totalOfCategory)
+    //total[category] = totalOfCategory.filter (({ category, amount }) => )
+
+
+    /*
+    for (const cadaOperation of totalOfCategory) {
+        const { category } = totalOfCategory
+        total[category] = totalOfCategory.filter(({ category }) => category === cadaOperation.category).length
+      }
+      return total
+    }
+    console.log(totalCategory())
+    */
+//     const { category } = allOperations
+//     let acc = 0
+//     const totalCategory = getData("operations").filter(operation => category === operation.category)
+// }
+/*
+const higherCategory = () => {
+    const totalCategory = getData("operations").filter(operation => operation.category)
+    let ventasTotalesVendedora = 0;
+    const { ventas } = local
+    const ventasPorVendedora = ventas.filter(venta => venta.nombreVendedora === nombre)
+    let acc = 0
+    for (const venta of ventasPorVendedora){
+      acc += precioMaquina (venta.componentes)
+    }
+    return acc
+  };
+*/
 // Events - - Initialize
 const initializeApp = () => {
     setData("operations", allOperations)
@@ -268,6 +372,8 @@ const initializeApp = () => {
     total("operations", "gasto")
     totalBalance()
     renderBalance()
+    renderhigher()
+    renderHigherSpending()
   
         
     

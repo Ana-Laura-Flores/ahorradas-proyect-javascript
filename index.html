@@ -370,19 +370,30 @@
                 <div class="text-report px-2">
                     <h2 class="font-bold text-3xl w-full h-8 mt-2">Reportes</h2>
                 </div>
+                <div class="flex flex-col items-center mt-8" id="none-reports">
+                    <div class="img-container flex justify-center lg:m-8 ">
+                        <img class="w-1/2 lg:w-3/4" src="./images/undraw_file_analysis_8k9b.svg" alt="analisis de Reportes">
+                    </div>
+                    <div class="container-text-no-reports my-10">
+                        <h2 class="font-bold text-2xl text-center my-3"> Operaciones insuficientes </h2>
+                        <p class="text-base text-center">Prueba agregando más operaciones</p>
+                    </div>
+                
+                </div>
+
                 <div>
                     <h3 class="font-bold text-2xl py-5 px-2">Resumen</h3>
                 </div>
                 <div class="resumen-container flex-col px-2">
                     <div class="revenue flex my-5 ">
                         <div class="w-1/2">Categoría con mayor ganancia</div>
-                        <div class="w-1/4 text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">Trabajo</span> </div>
-                        <div class="w-1/4 text-right font-bold text-green-600">+$200500</div>
+                        <div class="w-1/4 text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1" id="higher-cat"></span> </div>
+                        <div class="w-1/4 text-right font-bold text-green-600" id="higher-amount">+$ </div>
                     </div>
                     <div class="bills flex my-5">
                         <div class="w-1/2">Categoría con mayor gasto</div>
-                        <div class="w-1/4 text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">Comida</span> </div>
-                        <div class="w-1/4 text-right font-bold text-red-600">-$12000</div>
+                        <div class="w-1/4 text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1" id="higher-spending"></span> </div>
+                        <div class="w-1/4 text-right font-bold text-red-600" id="amount-spending">-$ </div>
                     </div>
                     <div class="greater-balance flex my-5">
                         <div class="w-1/2">Categoría con mayor balance</div>
