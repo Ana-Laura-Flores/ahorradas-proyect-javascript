@@ -94,8 +94,8 @@ const renderOperation = (operations) => {
     cleanContainer("#table-operation")
     if(operations.length) {
        for (const { id, description, category, date, type, amount} of operations){
-           const categoryColor = type === "ganancia" ? "text-green-600" : "text-red-600"
-           const categorySign = type === "ganancia" ? "+" : "-"
+           const categoryColor = type === "ganancias" ? "text-green-600" : "text-red-600"
+           const categorySign = type === "ganancias" ? "+" : "-"
            const categorySelected = getData("categories").find(categor => categor.id === category)
             hideElement("#none-operation")
             $("#table-operation").innerHTML += `
@@ -240,8 +240,7 @@ const editFormCategories = (id) => {
     const editedCategories = getData("categories").find(category => category.id === id)
     $("#edit-category").setAttribute("data-id", id)
     $("#categorie-name").value = editedCategories.categoriesName
-    console.log(editedCategories)
-    
+ 
 }
 // const editedCategories = () => {
 //     $("categories-name").innerHTML = `${categorie.categoriesName}`
@@ -255,8 +254,13 @@ const total = (operations, type) => {
                }
                return acc
     }
-const totalBalance = () => total("operations", "ganancia") - total("operations", "gasto")
+const totalBalance = () => total("operations", "ganancias") - total("operations", "gastos")
 
+const totalForCategories = () => {
+   
+}
+    
+     console.log(totalForCategories())
 //month
 
 // const reportMonth = () => {
@@ -298,7 +302,7 @@ const constructorDate = () => {
     //Día
     day = actualDay.getDate();
     
-    // $("#date").setAttribute("value", (year + `-` + `0`+month + `-` + day))
+     $("#date").setAttribute("value", (year + `-` + `0`+month + `-` + day))
     $("#date").setAttribute("max", (year + `-` + `0`+month + `-` + day) )
 }
 const arrayMes = [new Date(2023,03).getMonth() + `/${new Date(2023,03).getFullYear()}`]
@@ -368,8 +372,8 @@ console.log(reportMonth())
     // })
 
 const renderBalance = () =>{
-    $("#ganancia-total").innerHTML += `+$ ${total("operations", "ganancia")}` 
-    $("#gasto-total").innerHTML += `-$ ${total("operations", "gasto")}`
+    $("#ganancia-total").innerHTML += `+$ ${total("operations", "ganancias")}` 
+    $("#gasto-total").innerHTML += `-$ ${total("operations", "gastos")}`
     $("#balance-total").innerHTML += `$ ${totalBalance()}`
 }
 
@@ -435,17 +439,17 @@ const totalCategoryBalance = () => {
         hideElement("#none-reports")
         showElement("#container-reports")
         for (const {categoriesName, id} of nameCategory){
-            let accGanancia = 0
+            let accganancia = 0
             let accGasto = 0
             let balance = 0
             totalOfCategory.filter(({ category, amount, type }) => {
-                if(category === id & type === "ganancia"){
-                    accGanancia += parseInt(amount)
+                if(category === id & type === "ganancias"){
+                    accganancia += parseInt(amount)
                 }
-                if(category === id & type === "gasto"){
+                if(category === id & type === "gastos"){
                     accGasto += parseInt(amount)
                 }
-            balance = accGanancia - accGasto
+            balance = accganancia - accGasto
             categoriesTotal[categoriesName] = balance
             })
             
@@ -479,16 +483,16 @@ const render = () => {
 const renderhigher = () => {
     const operations = getData("operations")
     if (operations.length > 1){
-        $("#higher-cat").innerHTML = `${totalCategory("ganancia").higher}`
-        $("#higher-amount").innerHTML += `${totalCategory("ganancia").totalAmount}`
+        $("#higher-cat").innerHTML = `${totalCategory("ganancias").higher}`
+        $("#higher-amount").innerHTML += `${totalCategory("ganancias").totalAmount}`
     }
     
 }
 const renderHigherSpending = () => {
     const operations = getData("operations")
     if (operations.length > 1){
-        $("#higher-spending").innerHTML = `${totalCategory("gasto").higher}`
-        $("#amount-spending").innerHTML += `${totalCategory("gasto").totalAmount}`
+        $("#higher-spending").innerHTML = `${totalCategory("gastos").higher}`
+        $("#amount-spending").innerHTML += `${totalCategory("gastos").totalAmount}`
     }
 }
 const renderHigherBalance = () => {
@@ -523,6 +527,9 @@ const loMejorDelMes = (mes, anio, propiedad) => {
   */
 
   // filters
+  const filterTotal = () => {
+      
+  }
 $("#filter-category").addEventListener("input", (e) =>{
     const categoriesId = e.target.value
     const currentOperation = getData("operations")
@@ -531,22 +538,42 @@ $("#filter-category").addEventListener("input", (e) =>{
    } else {
         const filteredOperations = currentOperation.filter(operation => operation.category === categoriesId)
        renderOperation(filteredOperations)
-       
-       
     }
 })
 $("#filter-type").addEventListener("input", (e) =>{
     const typeId = e.target.value
     const currentOperation = getData("operations")
-    if(!typeId){
+    if(typeId === "Todos"){
        renderOperation(currentOperation)
+       
    } else {
-        const filteredOperations = currentOperation.filter(operation => operation.type === typeId)
+        const filteredOperations = currentOperation.filter(operation => operation.type === typeId.toLowerCase())
        renderOperation(filteredOperations)
-       
-       
     }
 })
+
+$("#filter-order").addEventListener("input", (e) =>{
+    const typeId = e.target.value
+    const currentOperation = getData("operations")
+    if(typeId === "A/Z"){
+        const orderAZ = currentOperation.toSorted((a,b) => {
+            if (a.description < b.description) return -1
+            if (a.description > b.description) return 1
+            return 0
+        })
+        renderOperation(orderAZ)
+}
+    if(typeId === "Z/A"){
+        const orderZA = currentOperation.toSorted((a,b) => {
+            if (a.description > b.description) return -1
+            if (a.description < b.description) return 1
+            return 0
+        })
+        renderOperation(orderZA)
+    }
+})
+
+
 
 // Events - - Initialize
 const initializeApp = () => {
@@ -555,8 +582,8 @@ const initializeApp = () => {
     renderOperation(allOperations)
     renderCategoriesOptions(allCategories)
     renderCategoriesTable(allCategories)
-    total("operations", "ganancia")
-    total("operations", "gasto")
+    total("operations", "ganancias")
+    total("operations", "gastos")
     totalBalance()
     constructorDate()
     render()
@@ -611,6 +638,7 @@ for (const btn of $$(".btn-reports")){
     $("#btn-new-operation").addEventListener("click", (e) =>{
         e.preventDefault()
         showElement("#modal-new-operation")
+        constructorDate()
     })
     
     $("#btn-add-operation").addEventListener("click", (e) => {
