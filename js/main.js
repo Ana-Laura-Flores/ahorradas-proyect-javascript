@@ -47,15 +47,21 @@ const allCategories = getData("categories") || categoriesDefault
 
 const saveOperation = (operationId) => {
     const categoriesId = $("#categories-name").options[$("#categories-name").selectedIndex].getAttribute("data-id")
+    const dayConstructor = new Date($("#date").value)
+    const day = dayConstructor.getDate()
+    const month = dayConstructor.getMonth() +1
+    const year = dayConstructor.getFullYear()
+    console.log(day)
+    const constructorDate = (day + `-` + month + `-` + year)
     return {
         id: operationId ? operationId : randomId(),
         description: $("#description-data").value,
         amount: $("#amount-data").value,
         type: $("#type-operation").value,
         category: categoriesId,
-        date: $("#date").value,
+        date: $("#date").value
     }
-}
+} //(year + `-` + `0`+month + `-` + day)
 const saveCategories = () =>{
     return {
         id: randomId (),
@@ -212,7 +218,7 @@ const editFormOperation = (id) => {
     $("#type-operation").value = currentOperation.type
     $("#categories-name").value = currentOperation.category
     $("#date").value = currentOperation.date
-    console.log(currentOperation)
+    
 }
 const editCategorie = () => {
     const categoriesId = $("#edit-category").getAttribute("data-id")
@@ -223,7 +229,7 @@ const editCategorie = () => {
         return category
     })
     setData("categories", editedCategories)
-    console.log(editedCategories)
+    
 }
 const editFormCategories = (id) => {
     showElement("#title-edit-category")
@@ -251,7 +257,115 @@ const total = (operations, type) => {
     }
 const totalBalance = () => total("operations", "ganancia") - total("operations", "gasto")
 
+//month
 
+// const reportMonth = () => {
+//     const gananciasMes = {}
+//     const currentOperation = getData("operations")
+//     let mes = ""
+//     let acc = 0
+//     for (let i = 0; i < currentOperation.length; i++){
+//         //const month = new Date(currentOperation[i].date.getMonth())
+//         //const year = new Date(currentOperation[i].date)
+//         //const dateFormat = new Date(currentOperation[i].date.getMonth())+1 + `/${year}`
+//         //console.log(currentOperation[i].date.getMonth())
+//         if(currentOperation[i].type === "ganancia"){
+            
+//         }
+//     }
+// }
+// const objMes = {
+//     0: enero,
+//     1: febrero,
+//     2: marzo,
+//     3: abril,
+//     4: mayo,
+//     5: junio,
+//     6: julio,
+//     7: agosto,
+//     8: septiembre,
+//     9: octubre,
+//     10: noviembre,
+//     11: diciembre
+// }
+const constructorDate = () => {
+    
+    actualDay =  new Date();
+    //Año
+    year = actualDay.getFullYear();
+    //Mes
+    month = actualDay.getMonth()+1;
+    //Día
+    day = actualDay.getDate();
+    
+    // $("#date").setAttribute("value", (year + `-` + `0`+month + `-` + day))
+    $("#date").setAttribute("max", (year + `-` + `0`+month + `-` + day) )
+}
+const arrayMes = [new Date(2023,03).getMonth() + `/${new Date(2023,03).getFullYear()}`]
+console.log(arrayMes)
+/*const reportMonth = () => {
+    const gananciasMes = {}
+    const currentOperation = getData("operations")
+    
+    let mes = []
+    let acc = 0
+    
+        currentOperation.filter(operation => {
+            const month = new Date(operation.date).getMonth()
+            const year = new Date(operation.date).getFullYear()
+            const dateFormat = new Date(operation.date).getMonth()+1 + `/${year}`
+            if(operation.type === "ganancia"){
+                for (let i = 1; i < month.lenght; i ++){
+                        console.log(month[i])
+                    if (month[i] === month[i]){
+                       console.log(month[i])
+                            acc += parseInt(operation.amount)
+                    }
+                        
+                    
+                } 
+                console.log(acc)
+                // acc = parseInt(amount)
+                // mes = dateFormat
+                // month[gananciasMes] = acc
+            }
+            
+            //.log(gananciasMes[dateFormat] = acc)
+        })  
+        return mes    //const { date, type, amount } = operation
+   
+}
+console.log(reportMonth())
+*/
+ 
+        // if (new Date(date).getMonth() === month && year && type === "ganancia"){
+        //     acc += parseInt(amount)
+        //     gananciasMes[date] = acc
+        //     //me da la fecha formada por mes y año
+        //     //console.log(new Date(date).getMonth()+1 + `/${year}`)
+        //     //console.log(year)
+            
+        //     if (month >1){
+        //         accMes += parseInt(amount)
+        //         console.log(parseInt(amount))
+        //         gananciasMes[date] = accMes
+        //     }
+        //     return new Date(date).getMonth()+1 + `/${year}`
+            
+        // }
+      
+    
+    // currentOperation.filter(({ date, amount, type}) => {
+    //   if (type === "ganancia"){
+    //     let acc = 0
+    //     const month = new Date(date).getMonth()
+    //     acc += parseInt(amount)
+    //       gananciasMes[month] = acc
+    //         //console.log(month.toLocaleString('default', { month: 'long' }))
+            
+    //      }
+        
+    // })
 
 const renderBalance = () =>{
     $("#ganancia-total").innerHTML += `+$ ${total("operations", "ganancia")}` 
@@ -260,7 +374,25 @@ const renderBalance = () =>{
 }
 
 // functions reports
-
+// const totalNameCategory = (operationType) => {
+//     const categoriesTotal = {}
+//     const totalOfCategory = getData("operations")
+//     const nameCategory = getData("categories")
+//     if(totalOfCategory.length > 1){
+//         hideElement("#none-reports")
+//         showElement("#container-reports")
+//         acc = 0
+//         const { id, categoriesName } = nameCategory
+//         for (const { category, amount } of totalOfCategory){
+//             if (category === id){
+//                 acc += parseInt(amount)
+//             }
+//             return acc
+//         }
+//         return categoriesTotal
+//     }
+// }
+// console.log(totalNameCategory("ganancia"))
  const totalCategory = (operationType) => {
     const categoriesTotal = {}
     const totalOfCategory = getData("operations")
@@ -337,7 +469,13 @@ const totalCategoryBalance = () => {
   
 }       
 
-//render reports // 
+//render reports //
+const render = () => {
+    renderBalance()
+    renderHigherBalance()
+    renderHigherSpending()
+    renderhigher()
+}
 const renderhigher = () => {
     const operations = getData("operations")
     if (operations.length > 1){
@@ -362,6 +500,54 @@ const renderHigherBalance = () => {
 }
 
 
+// reports month
+//const reportMonth = () =>
+/*
+const loMejorDelMes = (mes, anio, propiedad) => {
+    const ventasTotales = local.ventas;
+    for (let i = 1; i < ventasTotales.length; i++) {
+      if (
+        ventasTotales[i].fecha.getMonth() === mes &&
+        ventasTotales[i].fecha.getFullYear() === anio
+      ) {
+        if (
+          precioMaquina(ventasTotales[0].componentes) >
+          precioMaquina(ventasTotales[i].componentes)
+        ) {
+          return `lo mejor del mes: ${ventasTotales[i][propiedad]}`;
+        }
+      }
+    }
+    return "Este mes y año no hubo ventas";
+  };
+  */
+
+  // filters
+$("#filter-category").addEventListener("input", (e) =>{
+    const categoriesId = e.target.value
+    const currentOperation = getData("operations")
+    if(!categoriesId){
+       renderOperation(currentOperation)
+   } else {
+        const filteredOperations = currentOperation.filter(operation => operation.category === categoriesId)
+       renderOperation(filteredOperations)
+       
+       
+    }
+})
+$("#filter-type").addEventListener("input", (e) =>{
+    const typeId = e.target.value
+    const currentOperation = getData("operations")
+    if(!typeId){
+       renderOperation(currentOperation)
+   } else {
+        const filteredOperations = currentOperation.filter(operation => operation.type === typeId)
+       renderOperation(filteredOperations)
+       
+       
+    }
+})
+
 // Events - - Initialize
 const initializeApp = () => {
     setData("operations", allOperations)
@@ -372,16 +558,9 @@ const initializeApp = () => {
     total("operations", "ganancia")
     total("operations", "gasto")
     totalBalance()
-    renderBalance()
-    renderhigher()
-    renderHigherSpending()
-    renderHigherBalance()
-    
-    
-    
-  
-        
-    
+    constructorDate()
+    render()
+ 
 // events nav-bar
 for (const btn of $$(".btn-balance")){
     btn.addEventListener("click", (e)=>{
@@ -389,6 +568,9 @@ for (const btn of $$(".btn-balance")){
         showElement("#container-balance")
         hideElement("#container-category")
         hideElement("#container-report")
+        hideElement("#dropdown")
+        hideElement("#btn-menu-close")
+        showElement("#btn-menu")
         })
 }
    
@@ -398,6 +580,9 @@ for (const btn of $$(".btn-categories")){
         showElement("#container-category")
         hideElement("#container-balance")
         hideElement("#container-report")
+        hideElement("#dropdown")
+        hideElement("#btn-menu-close")
+        showElement("#btn-menu")
         })
 }
 for (const btn of $$(".btn-reports")){
@@ -406,6 +591,9 @@ for (const btn of $$(".btn-reports")){
         showElement("#container-report")
         hideElement("#container-balance")
         hideElement("#container-category")
+        hideElement("#dropdown")
+        hideElement("#btn-menu-close")
+        showElement("#btn-menu")
         })
 }
     $("#btn-menu").addEventListener("click", (e) => {
@@ -430,6 +618,8 @@ for (const btn of $$(".btn-reports")){
         // if (validateForm()) {
             addData("operations")
             confirmAddOperation()
+            //constructorDate()
+            
         // }
     })
     $("#btn-edit-operation").addEventListener("click", (e) => {
@@ -437,6 +627,7 @@ for (const btn of $$(".btn-reports")){
         editOperation()
         renderOperation(allOperations)
         hideElement("#modal-new-operation")
+        
         window.location.reload()
     })
     $("#add-categorie").addEventListener("click", (e) => {
@@ -446,7 +637,7 @@ for (const btn of $$(".btn-reports")){
         const currentCategories = getData("categories")
         renderCategoriesOptions(currentCategories)
         renderCategoriesTable(currentCategories)
-        
+        showElement("#text-confirm-add-category")
     })
 
     $("#edit-category").addEventListener("click", (e) => {
@@ -472,39 +663,6 @@ for (const btn of $$(".btn-reports")){
        
     })
 
-    
-    // $("#btn-edit-pencil").addEventListener("click", (e) => {
-    //     e.preventDefault()
-    //     const categoriesId = $("#btn-edit-pencil").getAttribute("data-id")
-    //     editCategories()
-    //     // renderCategoriesTable(allCategories)
-    //     // renderCategoriesOptions(allCategories)
-       
-    //})
-    // $("#btn-delete-trash").addEventListener("click", () => {
-    //     const operationId = getData("categories").filter(category => category.id !== id )
-    //     setData("categories", operationId)
-    //     deleteData(operationId, "categories")
-    //     renderCategoriesTable("categories")
-    // }) 
-    //const deleteOperation = (id) => {
-        //     const currentOperation = getData("operations").filter(operation => operation.id !== id )
-        //     setData("operations", currentOperation)
-        // const currentCategories = getData("categories")
-        // renderCategoriesTable(currentCategories)
-        // renderCategoriesOptions(currentCategories)
-       
-    
-    // $("#filter-category").addEventListener("input", (e) =>{
-    //     const categoriesId = e.target.value
-    //     const currentOperation = getData("operations")
-    //     if(!categoriesId){
-    //         renderOperation(currentOperation)
-    //     } else {
-    //         const filteredOperations = currentOperation.filter(operation => operation.categoriesName === categoriesId)
-    //         renderOperation(filteredOperations)
-    //     }
-    // })
 }
 
 window.addEventListener("load", initializeApp)
