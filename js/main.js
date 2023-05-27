@@ -307,69 +307,95 @@ const constructorDate = () => {
 }
 const arrayMes = [new Date(2023,03).getMonth() + `/${new Date(2023,03).getFullYear()}`]
 console.log(arrayMes)
-/*const reportMonth = () => {
+
+const reportMonth = (typeOperation) => {
     const gananciasMes = {}
     const currentOperation = getData("operations")
-    
+    //.log(currentOperation)
     let mes = []
     let acc = 0
-    
-        currentOperation.filter(operation => {
-            const month = new Date(operation.date).getMonth()
-            const year = new Date(operation.date).getFullYear()
-            const dateFormat = new Date(operation.date).getMonth()+1 + `/${year}`
-            if(operation.type === "ganancia"){
-                for (let i = 1; i < month.lenght; i ++){
-                        console.log(month[i])
-                    if (month[i] === month[i]){
-                       console.log(month[i])
-                            acc += parseInt(operation.amount)
-                    }
-                        
-                    
-                } 
-                console.log(acc)
-                // acc = parseInt(amount)
-                // mes = dateFormat
-                // month[gananciasMes] = acc
+    //if(currentOperation.length > 2){
+        const report = currentOperation.filter(({ amount, type, date }) => {
+            if( type === typeOperation){
+                const month = new Date(date).getMonth()
+                const year = new Date(date).getFullYear()
+                const dateFormat = new Date(date).getMonth()+1 + `/${year}`
+                        return{
+                            date: month,
+                            amount: amount,
+                            type: type
+                        } 
             }
-            
-            //.log(gananciasMes[dateFormat] = acc)
+        })
+        console.log(report)
+        const reportMonth = report.filter(({date, amount}) => {
+            const month = new Date(date).getMonth()
+                const year = new Date(date).getFullYear()
+                const dateFormat = new Date(date).getMonth()+1 + `/${year}`
+            if(month){
+                acc += parseInt(amount)
+                gananciasMes[dateFormat] = acc
+            }
+
         })  
-        return mes    //const { date, type, amount } = operation
-   
+        return gananciasMes
+    }
+console.log(reportMonth("ganancias"))
+const totalMonth = (typeOperation) => {
+    let january = 0
+    let febrary = 0
+    let march = 0
+    let april = 0
+    let may = 0
+    let june = 0
+    let july = 0
+    let august = 0
+    let september = 0
+    let octuber = 0
+    let november = 0
+    let december = 0
 }
-console.log(reportMonth())
-*/
- 
-        // if (new Date(date).getMonth() === month && year && type === "ganancia"){
-        //     acc += parseInt(amount)
-        //     gananciasMes[date] = acc
-        //     //me da la fecha formada por mes y año
-        //     //console.log(new Date(date).getMonth()+1 + `/${year}`)
-        //     //console.log(year)
-            
-        //     if (month >1){
-        //         accMes += parseInt(amount)
-        //         console.log(parseInt(amount))
-        //         gananciasMes[date] = accMes
-        //     }
-        //     return new Date(date).getMonth()+1 + `/${year}`
-            
-        // }
-      
+
+ //gananciasMes[dateFormat] += parseInt(amount)
+                //console.log(gananciasMes[dateFormat] = acc)
+                    
+                    // acc = parseInt(amount)
+                    // mes = dateFormat
+                    // month[gananciasMes] = acc
+             //const { date, type, amount } = operation
+
+
+
+// report of categories
+
+const reportCategories = () => {
+    const currentOperation = getData("operations")
+    const currentCategory = getData("categories")
+    let acc = 0
+    let categoriesNombres = []
+    const objCategories = {}
     
-    // currentOperation.filter(({ date, amount, type}) => {
-    //   if (type === "ganancia"){
-    //     let acc = 0
-    //     const month = new Date(date).getMonth()
-    //     acc += parseInt(amount)
-    //       gananciasMes[month] = acc
-    //         //console.log(month.toLocaleString('default', { month: 'long' }))
+   
+    for (const { id, categoriesName } of currentCategory){
+        const filteredOperations = currentOperation.map(({amount, category}) => {
             
-    //      }
-        
-    // })
+            let totalAmount = parseFloat(amount)
+            if(category === id){
+                return{
+                    categoriesName: categoriesName,
+                    amount: amount
+                }
+
+            }
+        })
+       
+    return filteredOperations    
+    }
+    return objCategories
+    
+}
+console.log(reportCategories())
+
 
 const renderBalance = () =>{
     $("#ganancia-total").innerHTML += `+$ ${total("operations", "ganancias")}` 
@@ -377,26 +403,6 @@ const renderBalance = () =>{
     $("#balance-total").innerHTML += `$ ${totalBalance()}`
 }
 
-// functions reports
-// const totalNameCategory = (operationType) => {
-//     const categoriesTotal = {}
-//     const totalOfCategory = getData("operations")
-//     const nameCategory = getData("categories")
-//     if(totalOfCategory.length > 1){
-//         hideElement("#none-reports")
-//         showElement("#container-reports")
-//         acc = 0
-//         const { id, categoriesName } = nameCategory
-//         for (const { category, amount } of totalOfCategory){
-//             if (category === id){
-//                 acc += parseInt(amount)
-//             }
-//             return acc
-//         }
-//         return categoriesTotal
-//     }
-// }
-// console.log(totalNameCategory("ganancia"))
  const totalCategory = (operationType) => {
     const categoriesTotal = {}
     const totalOfCategory = getData("operations")
@@ -412,8 +418,7 @@ const renderBalance = () =>{
                 }
             categoriesTotal[categoriesName] = acc
             })
-            
-        }
+         }
         let higher = " "
         let totalAmount = 0
         for (const key in categoriesTotal){
@@ -504,27 +509,6 @@ const renderHigherBalance = () => {
 }
 
 
-// reports month
-//const reportMonth = () =>
-/*
-const loMejorDelMes = (mes, anio, propiedad) => {
-    const ventasTotales = local.ventas;
-    for (let i = 1; i < ventasTotales.length; i++) {
-      if (
-        ventasTotales[i].fecha.getMonth() === mes &&
-        ventasTotales[i].fecha.getFullYear() === anio
-      ) {
-        if (
-          precioMaquina(ventasTotales[0].componentes) >
-          precioMaquina(ventasTotales[i].componentes)
-        ) {
-          return `lo mejor del mes: ${ventasTotales[i][propiedad]}`;
-        }
-      }
-    }
-    return "Este mes y año no hubo ventas";
-  };
-  */
 
   // filters
   const filterTotal = () => {
@@ -551,6 +535,13 @@ $("#filter-type").addEventListener("input", (e) =>{
        renderOperation(filteredOperations)
     }
 })
+$("#filter-date").addEventListener("input", (e) =>{
+    const typeId = e.target.value
+    const currentOperation = getData("operations")
+    const filteredOperations = currentOperation.filter(operation => new Date(operation.date) > new Date(typeId))
+    renderOperation(filteredOperations)
+
+})
 
 $("#filter-order").addEventListener("input", (e) =>{
     const typeId = e.target.value
@@ -571,6 +562,23 @@ $("#filter-order").addEventListener("input", (e) =>{
         })
         renderOperation(orderZA)
     }
+    if(typeId === "mayor_monto"){
+        const orderMayorMonto = currentOperation.toSorted((a,b) => b.amount - a.amount)
+        renderOperation(orderMayorMonto)
+    }
+    if(typeId === "menor_monto"){
+        const orderMenorMonto = currentOperation.toSorted((a,b) => a.amount - b.amount)
+        renderOperation(orderMenorMonto)
+    }
+    if(typeId === "menos_reciente"){
+        const orderMenorFecha = currentOperation.toSorted((a,b) => new Date(a.date) - new Date(b.date))
+        renderOperation(orderMenorFecha)
+    }
+    if(typeId === "mas_reciente"){
+        const orderMayorFecha = currentOperation.toSorted((a,b) => new Date(b.date) - new Date(a.date))
+        renderOperation(orderMayorFecha)
+    }
+    
 })
 
 
