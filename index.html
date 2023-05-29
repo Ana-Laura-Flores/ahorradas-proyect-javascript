@@ -234,56 +234,7 @@
             </div>
                    
 
-        <!-- NEW OPERATION -->
-        <!--
-        <div class="drop-shadow-lg hidden	" id="container-new-operation">
-            <div class="new-operation bg-gray-50  h-auto px-8 py-3 rounded-md  mx-8 my-2">
-                <div class="text-new-operation">
-                    <h2 class="font-bold text-2xl w-full h-8 my-5">Nueva Operación</h2>
-                    <div class="description-container ">
-                        <label class="text-lg font-bold text-gray-600	pt-5" for="description" id="description">Descripción</label>
-                        <input class=" border-solid border-2 w-full my-2 p-2 rounded-md" type="text" name="description" id="description-data">
-                    </div>
-                    <div class="amount-container">
-                        <label class="text-lg font-bold text-gray-600	pt-5" for="amount" id="amount">Monto</label>
-                        <input class="border-solid border-2 w-full my-2 p-2 rounded-md" type="number" name="" id="amount-data">
-                    </div>
-                    <div class="type-container">
-                        <label class="text-lg font-bold text-gray-600	pt-5" for="type">Tipo</label>
-                        <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="type" id="type-operation">
-                            <option value="gasto">Gasto</option>
-                            <option value="ganancia">Ganancia</option>
-                        </select>
-                    </div>
-                    <div class="category-container">
-                        <label class="text-lg font-bold text-gray-600	pt-5" for="category">Categoría</label>
-                        <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="type" id="categories">
-                            <option value="comidas">Comidas</option>
-                            <option value="ganancias">Servicios</option>
-                            <option value="gastos">Salidas</option>
-                            <option value="educacion">Educación</option>
-                            <option value="transporte">Transporte</option>
-                            <option value="trabajo">Trabajo</option>
-                        </select>
-                    </div>
-                    <div class="date-container">
-                        <h3 class="text-lg font-bold text-gray-600	pt-5">Fecha</h3>
-                        <input type="date" name="" id="date" class="border-solid border-2 w-full my-2 p-2 rounded-md ">
-                    </div>
-                   
-                        <div class="buttons-container  flex justify-end my-10">
-                            <p class="flex items-center justify-start text-green-600 pr-10" id="confirm-add-operation"></p>
-                            <a href="index.html">
-                                <button class="font-bold text-black w-1/3 mx-8bg-gray-300 p-2 rounded-md" id="btn-close-operation">Cancelar</button>
-                            </a>
-                            <button class="font-bold text-white w-1/3 bg-[#D22779] p-2 rounded-md" id="btn-add-operation">Agregar</button>
-                        </div>
-                   
-                </div>
-
-            </div>
-        </div>
-         -->
+        
         <!-- modal delete operation -->
         <div class="modal hidden z-10" id="modal-open">
             <div id="modal-component-container" class="fixed inset-0">
@@ -405,13 +356,13 @@
                         </div>
                         <div class="greater-revenue flex my-5">
                             <div class="w-1/2 ">Mes con más ganancia</div>
-                            <div class="w-1/4 text-sm text-right"> 2023/04/27 </div>
-                            <div class="w-1/4 text-right font-bold text-gray-600">$200500</div>
+                            <div class="w-1/4 text-sm text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1" id="higher-month"></span> </div>
+                            <div class="w-1/4 text-right font-bold text-gray-600" id="higher-month-amount">$</div>
                         </div>
                         <div class="greater-bills flex my-5">
                             <div class="w-1/2 ">Mes con más gasto</div>
-                            <div class="w-1/4 text-sm text-right"> 2023/04/27 </div>
-                            <div class="w-1/4 text-right font-bold text-gray-600">$200500</div>
+                            <div class="w-1/4 text-sm text-right" ><span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1" id="spent-month"></span></div>
+                            <div class="w-1/4 text-right font-bold text-gray-600" id="spent-month-amount">$</div>
                         </div>
                     </div>
                     <!-- Category Totals -->
@@ -427,25 +378,10 @@
                         <th class="px-2 text-right">Gastos</th>
                         <th class="px-2 text-right">balance</th>
                     </thead>
-                    <tbody class=>
-                        <tr class="">
-                        <td class="px-2">Salidas</td>
-                        <td class="px-2 text-right  text-green-600">$2000</td>
-                        <td class="px-2 text-right  text-red-600">$500</td>
-                        <td class="px-2 text-right font-bold text-gray-600">$ 50000</td>
-                        <tr>
-                        <tr class="">
-                            <td class="px-2">Trabajo</td>
-                            <td class="px-2 text-right  text-green-600">$2000</td>
-                            <td class="px-2 text-right  text-red-600">$500</td>
-                            <td class="px-2 text-right font-bold text-gray-600">$ 50000</td>
-                        </tr>
-                        <tr class="">
-                            <td class="px-2">Comida</td>
-                            <td class="px-2 text-right  text-green-600">$2000</td>
-                            <td class="px-2 text-right  text-red-600">$500</td>
-                            <td class="px-2 text-right font-bold text-gray-600">$ 50000</td>
-                        </tr>
+                    <tbody class="report-cat-total">
+                        
+                        <!-- report of categories -->
+                        
                     </tbody>
                 </table>
             </div>

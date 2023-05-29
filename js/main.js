@@ -89,6 +89,15 @@ const addDataCategories = () => {
 const confirmAddOperation = () => {
     $("#confirm-add-operation").innerHTML = "tu operacion fue guardada con exito"
 }
+// let timeOutId;
+// const messageConfirm = () =>{
+//     timeOutId = setTimeout(confirmAddOperation, 1000);
+// }
+// const deleteMessageConfirm = ()=> {
+//     clearTimeout(timeOutId, 1000)
+// }
+// messageConfirm()
+// deleteMessageConfirm()
 
 const renderOperation = (operations) => {
     cleanContainer("#table-operation")
@@ -165,10 +174,16 @@ const renderCategoriesTable = (categorys) => {
      $("#btn-delete-operation").addEventListener("click", () => {
          const operationId = $("#btn-delete-operation").getAttribute("data-id")
          deleteData(operationId, "operations")
-         window.location.reload()
+         renderOperation(getData("operations"))
+         cleanContainer("#ganancia-total")
+         cleanContainer("#gasto-total")
+         cleanContainer("#balance-total")
+         renderBalance()
+        render()
+ 
      })
-
  }
+ 
 const deleteModalCategorie = (id) => {
     showElement("#btn-delete-category")
     hideElement("#btn-delete-operation")
@@ -181,6 +196,7 @@ const deleteModalCategorie = (id) => {
         deleteData(operationId, "categories")
         renderCategoriesOptions(getData("categories"))
         renderCategoriesTable(getData("categories"))
+        renderOperation(getData("operations"))
         hideElement("#modal-open")
         
     })
@@ -242,9 +258,7 @@ const editFormCategories = (id) => {
     $("#categorie-name").value = editedCategories.categoriesName
  
 }
-// const editedCategories = () => {
-//     $("categories-name").innerHTML = `${categorie.categoriesName}`
-// }
+
 const total = (operations, type) => {
    const totalAmount = getData(operations).filter(operation => operation.type === type)
     
@@ -256,42 +270,8 @@ const total = (operations, type) => {
     }
 const totalBalance = () => total("operations", "ganancias") - total("operations", "gastos")
 
-const totalForCategories = () => {
-   
-}
-    
-     console.log(totalForCategories())
-//month
 
-// const reportMonth = () => {
-//     const gananciasMes = {}
-//     const currentOperation = getData("operations")
-//     let mes = ""
-//     let acc = 0
-//     for (let i = 0; i < currentOperation.length; i++){
-//         //const month = new Date(currentOperation[i].date.getMonth())
-//         //const year = new Date(currentOperation[i].date)
-//         //const dateFormat = new Date(currentOperation[i].date.getMonth())+1 + `/${year}`
-//         //console.log(currentOperation[i].date.getMonth())
-//         if(currentOperation[i].type === "ganancia"){
-            
-//         }
-//     }
-// }
-// const objMes = {
-//     0: enero,
-//     1: febrero,
-//     2: marzo,
-//     3: abril,
-//     4: mayo,
-//     5: junio,
-//     6: julio,
-//     7: agosto,
-//     8: septiembre,
-//     9: octubre,
-//     10: noviembre,
-//     11: diciembre
-// }
+
 const constructorDate = () => {
     
     actualDay =  new Date();
@@ -305,97 +285,135 @@ const constructorDate = () => {
      $("#date").setAttribute("value", (year + `-` + `0`+month + `-` + day))
     $("#date").setAttribute("max", (year + `-` + `0`+month + `-` + day) )
 }
-const arrayMes = [new Date(2023,03).getMonth() + `/${new Date(2023,03).getFullYear()}`]
-console.log(arrayMes)
-
-const reportMonth = (typeOperation) => {
-    const gananciasMes = {}
-    const currentOperation = getData("operations")
-    //.log(currentOperation)
-    let mes = []
-    let acc = 0
-    //if(currentOperation.length > 2){
-        const report = currentOperation.filter(({ amount, type, date }) => {
-            if( type === typeOperation){
-                const month = new Date(date).getMonth()
-                const year = new Date(date).getFullYear()
-                const dateFormat = new Date(date).getMonth()+1 + `/${year}`
-                        return{
-                            date: month,
-                            amount: amount,
-                            type: type
-                        } 
-            }
+const months = [0,1,2,3,4,5,6,7,8,9,10,11]
+const objMes = {
+    0: "enero",
+    1: "febrero",
+    2: "marzo",
+    3: "abril",
+    4: "mayo",
+    5: "junio",
+    6: "julio",
+    7: "agosto",
+    8: "septiembre",
+    9: "octubre",
+   10: "noviembre",
+   11: "diciembre"
+ }
+let higherAmountMonth = 0
+const reportPerMonthHigher = (operationType) => {
+    const currentOperations = getData("operations")   
+    const incomePerMonth = {}
+    for (const month of months) {
+        const filteredByMonth = currentOperations.filter(operation => {
+            const date = new Date(operation.date)
+            return date.getMonth() === month && operation.type === operationType
         })
-        console.log(report)
-        const reportMonth = report.filter(({date, amount}) => {
-            const month = new Date(date).getMonth()
-                const year = new Date(date).getFullYear()
-                const dateFormat = new Date(date).getMonth()+1 + `/${year}`
-            if(month){
-                acc += parseInt(amount)
-                gananciasMes[dateFormat] = acc
-            }
-
-        })  
-        return gananciasMes
+        let acc = 0
+        for (const op of filteredByMonth) {
+            acc += parseInt(op.amount)
+        }
+        incomePerMonth[month] = acc
     }
-console.log(reportMonth("ganancias"))
-const totalMonth = (typeOperation) => {
-    let january = 0
-    let febrary = 0
-    let march = 0
-    let april = 0
-    let may = 0
-    let june = 0
-    let july = 0
-    let august = 0
-    let september = 0
-    let octuber = 0
-    let november = 0
-    let december = 0
+    let higherMonth = ""
+    for (const key in incomePerMonth) {
+        if (incomePerMonth[key] > higherAmountMonth) {
+            higherAmountMonth= incomePerMonth[key],
+            higherMonth= key
+        }
+    }
+    for (const mes in objMes){
+        mes === higherMonth
+        return objMes[higherMonth]
+    }
 }
+const renderMonthHigher = () => {
+    $("#higher-month").innerHTML = `${reportPerMonthHigher("ganancias")}`
+    $("#higher-month-amount").innerHTML += `${higherAmountMonth}`  
+}
+// reportes mayor gasto
 
- //gananciasMes[dateFormat] += parseInt(amount)
-                //console.log(gananciasMes[dateFormat] = acc)
-                    
-                    // acc = parseInt(amount)
-                    // mes = dateFormat
-                    // month[gananciasMes] = acc
-             //const { date, type, amount } = operation
-
-
+let spentAmountMonth = 0
+const reportPerMonthSpent = (operationType) => {
+    const currentOperations = getData("operations")   
+    const incomePerMonth = {}
+    for (const month of months) {
+        const filteredByMonth = currentOperations.filter(operation => {
+            const date = new Date(operation.date)
+            return date.getMonth() === month && operation.type === operationType
+        })
+        let acc = 0
+        for (const op of filteredByMonth) {
+            acc += parseInt(op.amount)
+        }
+        incomePerMonth[month] = acc
+    }
+    let higherMonth = ""
+    for (const key in incomePerMonth) {
+        if (incomePerMonth[key] > spentAmountMonth) {
+            spentAmountMonth= incomePerMonth[key],
+            higherMonth= key
+        }
+    }
+    for (const mes in objMes){
+        mes === higherMonth
+        return objMes[higherMonth]
+    }
+}
+const renderMonthSpent = () => {
+    $("#spent-month").innerHTML = `${reportPerMonthSpent("gastos")}`
+    $("#spent-month-amount").innerHTML += `${spentAmountMonth}`
+}
 
 // report of categories
 
-const reportCategories = () => {
-    const currentOperation = getData("operations")
-    const currentCategory = getData("categories")
-    let acc = 0
-    let categoriesNombres = []
-    const objCategories = {}
-    
-   
-    for (const { id, categoriesName } of currentCategory){
-        const filteredOperations = currentOperation.map(({amount, category}) => {
-            
-            let totalAmount = parseFloat(amount)
-            if(category === id){
-                return{
-                    categoriesName: categoriesName,
-                    amount: amount
+//const categorySelected = getData("categories").find(categor => categor.id === category)
+
+const reportTotalCategories = (operationType) => {
+    const categoriesTotal = {}
+    const totalOfCategory = getData("operations")
+    const nameCategory = getData("categories")
+    if(!totalOfCategory){
+        showElement("#none-reports")
+
+    }else{
+        hideElement("#none-reports")
+        showElement("#container-reports")
+        for (const {categoriesName, id} of nameCategory){
+            let acc = 0
+            const categories = totalOfCategory.map(({ category, amount, type }) => {
+                if(category === id & type === operationType){
+                    acc += parseInt(amount)
                 }
-
-            }
-        })
-       
-    return filteredOperations    
+                categoriesTotal[categoriesName] = acc
+                     //console.log(categoriesTotal[categoriesName])
+                 //console.log(Object.keys(categoriesTotal))
+            })
+        }
+         return categoriesTotal
+         }
     }
-    return objCategories
-    
+    //console.log((categoriesTotal[categoriesName] = acc))  
+console.log(reportTotalCategories("ganancias"))
+console.log(reportTotalCategories("gastos"))
+// render total for categories 
+const renderReportTotalCategories = () => {
+    const categoriesGanancias = reportTotalCategories("ganancias")
+    const categoriesGastos = reportTotalCategories("gastos")
+    for (const report in categoriesGanancias){
+        $(".report-cat-total").innerHTML += `
+        <tr class="" id="report-of-cate">
+        <td class="px-2">${report}</td>
+        <td class="px-2 text-right  cat-tot text-green-600">$ ${categoriesGanancias[report]}</td>`
+    }
+        for (const reportGan in categoriesGastos){
+        $(".report-cat-total").innerHTML +=`
+        <td class="px-2 text-right  text-red-600">$ ${categoriesGastos[reportGan]}</td>
+        <td class="px-2 text-right font-bold text-gray-600"></td>
+        </tr>`
+    } 
 }
-console.log(reportCategories())
-
+console.log(renderReportTotalCategories())
 
 const renderBalance = () =>{
     $("#ganancia-total").innerHTML += `+$ ${total("operations", "ganancias")}` 
@@ -412,7 +430,7 @@ const renderBalance = () =>{
         showElement("#container-reports")
         for (const {categoriesName, id} of nameCategory){
             let acc = 0
-            totalOfCategory.filter(({ category, amount, type }) => {
+            totalOfCategory.map(({ category, amount, type }) => {
                 if(category === id & type === operationType){
                     acc += parseInt(amount)
                 }
@@ -435,7 +453,8 @@ const renderBalance = () =>{
         hideElement("#container-reports")
     }
   
-}       
+}
+
 const totalCategoryBalance = () => {
     const categoriesTotal = {}
     const totalOfCategory = getData("operations")
@@ -480,10 +499,12 @@ const totalCategoryBalance = () => {
 
 //render reports //
 const render = () => {
-    renderBalance()
+    
     renderHigherBalance()
     renderHigherSpending()
     renderhigher()
+    renderMonthHigher()
+    renderMonthSpent()
 }
 const renderhigher = () => {
     const operations = getData("operations")
@@ -512,74 +533,80 @@ const renderHigherBalance = () => {
 
   // filters
   const filterTotal = () => {
-      
-  }
-$("#filter-category").addEventListener("input", (e) =>{
-    const categoriesId = e.target.value
-    const currentOperation = getData("operations")
-    if(!categoriesId){
-       renderOperation(currentOperation)
-   } else {
-        const filteredOperations = currentOperation.filter(operation => operation.category === categoriesId)
-       renderOperation(filteredOperations)
-    }
-})
-$("#filter-type").addEventListener("input", (e) =>{
-    const typeId = e.target.value
-    const currentOperation = getData("operations")
-    if(typeId === "Todos"){
-       renderOperation(currentOperation)
-       
-   } else {
-        const filteredOperations = currentOperation.filter(operation => operation.type === typeId.toLowerCase())
-       renderOperation(filteredOperations)
-    }
-})
-$("#filter-date").addEventListener("input", (e) =>{
-    const typeId = e.target.value
-    const currentOperation = getData("operations")
-    const filteredOperations = currentOperation.filter(operation => new Date(operation.date) > new Date(typeId))
-    renderOperation(filteredOperations)
-
-})
-
-$("#filter-order").addEventListener("input", (e) =>{
-    const typeId = e.target.value
-    const currentOperation = getData("operations")
-    if(typeId === "A/Z"){
-        const orderAZ = currentOperation.toSorted((a,b) => {
-            if (a.description < b.description) return -1
-            if (a.description > b.description) return 1
-            return 0
-        })
-        renderOperation(orderAZ)
-}
-    if(typeId === "Z/A"){
-        const orderZA = currentOperation.toSorted((a,b) => {
-            if (a.description > b.description) return -1
-            if (a.description < b.description) return 1
-            return 0
-        })
-        renderOperation(orderZA)
-    }
-    if(typeId === "mayor_monto"){
-        const orderMayorMonto = currentOperation.toSorted((a,b) => b.amount - a.amount)
-        renderOperation(orderMayorMonto)
-    }
-    if(typeId === "menor_monto"){
-        const orderMenorMonto = currentOperation.toSorted((a,b) => a.amount - b.amount)
-        renderOperation(orderMenorMonto)
-    }
-    if(typeId === "menos_reciente"){
-        const orderMenorFecha = currentOperation.toSorted((a,b) => new Date(a.date) - new Date(b.date))
-        renderOperation(orderMenorFecha)
-    }
-    if(typeId === "mas_reciente"){
-        const orderMayorFecha = currentOperation.toSorted((a,b) => new Date(b.date) - new Date(a.date))
-        renderOperation(orderMayorFecha)
-    }
+    $("#filter-category").addEventListener("input", (e) =>{
+        const categoriesId = e.target.value
+        const currentOperation = getData("operations")
+        if(!categoriesId){
+           renderOperation(currentOperation)
+       } else {
+            const filteredOperations = currentOperation.filter(operation => operation.category === categoriesId)
+           renderOperation(filteredOperations)
+           
+           
+        }
+    })
+    $("#filter-type").addEventListener("input", (e) =>{
+        const typeId = e.target.value
+        const currentOperation = getData("operations")
+        if(typeId === "Todos"){
+            renderOperation(currentOperation)
+        } else {
+            const filteredOperations = currentOperation.filter(operation => operation.type === typeId.toLowerCase())
+           renderOperation(filteredOperations)
+        }
+    })
+    $("#filter-date").addEventListener("input", (e) =>{
+        const typeId = e.target.value
+        const currentOperation = getData("operations")
+        const filteredOperations = currentOperation.filter(operation => new Date(operation.date) > new Date(typeId))
+        renderOperation(filteredOperations)
     
-})
+    })
+    
+    $("#filter-order").addEventListener("input", (e) =>{
+        const typeId = e.target.value
+        const currentOperation = getData("operations")
+        if(typeId === "A/Z"){
+            const orderAZ = currentOperation.toSorted((a,b) => {
+                if (a.description < b.description) return -1
+                if (a.description > b.description) return 1
+                return 0
+            })
+            renderOperation(orderAZ)
+    }
+        if(typeId === "Z/A"){
+            const orderZA = currentOperation.toSorted((a,b) => {
+                if (a.description > b.description) return -1
+                if (a.description < b.description) return 1
+                return 0
+            })
+            renderOperation(orderZA)
+        }
+        if(typeId === "mayor_monto"){
+            const orderMayorMonto = currentOperation.toSorted((a,b) => b.amount - a.amount)
+            renderOperation(orderMayorMonto)
+        }
+        if(typeId === "menor_monto"){
+            const orderMenorMonto = currentOperation.toSorted((a,b) => a.amount - b.amount)
+            renderOperation(orderMenorMonto)
+        }
+        if(typeId === "menos_reciente"){
+            const orderMenorFecha = currentOperation.toSorted((a,b) => new Date(a.date) - new Date(b.date))
+            renderOperation(orderMenorFecha)
+        }
+        if(typeId === "mas_reciente"){
+            const orderMayorFecha = currentOperation.toSorted((a,b) => new Date(b.date) - new Date(a.date))
+            renderOperation(orderMayorFecha)
+        }
+        
+    })
+   
+    cleanContainer("#ganancia-total")
+    cleanContainer("#gasto-total")
+    cleanContainer("#balance-total")
+    renderBalance()
+  }
+
 
 
 
@@ -595,6 +622,7 @@ const initializeApp = () => {
     totalBalance()
     constructorDate()
     render()
+    filterTotal()
  
 // events nav-bar
 for (const btn of $$(".btn-balance")){
@@ -661,10 +689,13 @@ for (const btn of $$(".btn-reports")){
     $("#btn-edit-operation").addEventListener("click", (e) => {
         e.preventDefault()
         editOperation()
-        renderOperation(allOperations)
-        hideElement("#modal-new-operation")
         
-        window.location.reload()
+        renderOperation(getData("operations"))
+         cleanContainer("#ganancia-total")
+         cleanContainer("#gasto-total")
+         cleanContainer("#balance-total")
+         renderBalance()
+        hideElement("#modal-new-operation")
     })
     $("#add-categorie").addEventListener("click", (e) => {
         e.preventDefault()
@@ -683,6 +714,7 @@ for (const btn of $$(".btn-reports")){
         renderCategoriesOptions(currentCategories)
         renderCategoriesTable(currentCategories)
         showElement("#text-confirm-edit")
+        renderOperation(getData("operations"))
        
     })
     $("#cancel-edit-category").addEventListener("click", () => {
@@ -695,6 +727,7 @@ for (const btn of $$(".btn-reports")){
         const currentCategories = getData("categories")
         renderCategoriesOptions(currentCategories)
         renderCategoriesTable(currentCategories)
+        
         
        
     })
