@@ -96,37 +96,40 @@
                 <div class="filter drop-shadow-lg bg-gray-50 h-auto p-8 lg:mr-2 rounded-md m-8" id="container-filter">
                     <div class="filter-tipo flex">
                         <h2 class="font-bold text-2xl w-3/4 h-8 ">Filtros</h2>
-                        <h3 class="text-l text-blue-600 w-1/4 text-right cursor-pointer"id="hidden-filters">Ocultar Filtros</h3>
+                        <h3 class="hidden text-l text-blue-600 w-1/4 text-right cursor-pointer"id="hidden-filters">Ocultar Filtros</h3>
+                        <h3 class="text-l text-blue-600 w-1/4 text-right cursor-pointer"id="show-filters">Mostrar Filtros</h3>
                     </div>
-                    <div class="select-types">
-                        <h3 class="text-lg font-bold text-gray-600	pt-5">Tipo</h3>
-                        <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter-type">
-                            <option value="Todos">Todos</option>
-                            <option value="Ganancias">Ganancias</option>
-                            <option value="Gastos">Gastos</option>
-                        </select>
-                    </div>
-                    <div class="select-category">    
-                        <h3 class="text-lg font-bold text-gray-600	pt-5">Categoría</h3>
-                        <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter-category">
-                            <option value="">Todas</option>
-                            <!-- filter categorys -->
-                        </select>
-                    </div>
-                    <div class="date">    
-                        <h3 class="text-lg font-bold text-gray-600	pt-5">Desde</h3>
-                        <input type="date" name="" id="filter-date" class="border-solid border-2 w-full my-2 p-2 rounded-md ">
-                    </div>
-                    <div class="order">
-                        <h3 class="text-lg font-bold text-gray-600	pt-5">Ordenar Por</h3>
-                        <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter-order">
-                            <option value="mas_reciente">Más Reciente</option>
-                            <option value="menos_reciente">Menos Reciente</option>
-                            <option value="mayor_monto">Mayor Monto</option>
-                            <option value="menor_monto">Menor Monto</option>
-                            <option value="A/Z">A/Z</option>
-                            <option value="Z/A">Z/A</option>
-                        </select>
+                    <div class="container-filters-type hidden">
+                        <div class="select-types">
+                            <h3 class="text-lg font-bold text-gray-600	pt-5">Tipo</h3>
+                            <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter-type">
+                                <option value="Todos">Todos</option>
+                                <option value="Ganancias">Ganancias</option>
+                                <option value="Gastos">Gastos</option>
+                            </select>
+                        </div>
+                        <div class="select-category">    
+                            <h3 class="text-lg font-bold text-gray-600	pt-5">Categoría</h3>
+                            <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter-category">
+                                <option value="">Todas</option>
+                                <!-- filter categorys -->
+                            </select>
+                        </div>
+                        <div class="date">    
+                            <h3 class="text-lg font-bold text-gray-600	pt-5">Desde</h3>
+                            <input type="date" name="" id="filter-date" class="border-solid border-2 w-full my-2 p-2 rounded-md ">
+                        </div>
+                        <div class="order">
+                            <h3 class="text-lg font-bold text-gray-600	pt-5">Ordenar Por</h3>
+                            <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter-order">
+                                <option value="mas_reciente">Más Reciente</option>
+                                <option value="menos_reciente">Menos Reciente</option>
+                                <option value="mayor_monto">Mayor Monto</option>
+                                <option value="menor_monto">Menor Monto</option>
+                                <option value="A/Z">A/Z</option>
+                                <option value="Z/A">Z/A</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -423,6 +426,5 @@
     
 
     <script src="./js/main.js"></script>
-    <script src=".js/funciones-faltantes.js"></script>
-</body>
+    </body>
 </html>

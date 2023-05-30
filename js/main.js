@@ -815,6 +815,16 @@ for (const btn of $$(".btn-reports")){
         renderCategoriesTable(currentCategories)
         
     })
+    $("#hidden-filters").addEventListener("click", () =>{
+    hideElement(".container-filters-type")
+    hideElement("#hidden-filters")
+    showElement("#show-filters")
+    })
+    $("#show-filters").addEventListener("click", () =>{
+        showElement(".container-filters-type")
+        showElement("#hidden-filters")
+        hideElement("#show-filters")
+        })
 
 }
 
