@@ -96,7 +96,7 @@
                 <div class="filter drop-shadow-lg bg-gray-50 h-auto p-8 lg:mr-2 rounded-md m-8" id="container-filter">
                     <div class="filter-tipo flex">
                         <h2 class="font-bold text-2xl w-3/4 h-8 ">Filtros</h2>
-                        <h3 class="text-l text-blue-600 w-1/4 text-right">Ocultar Filtros</h3>
+                        <h3 class="text-l text-blue-600 w-1/4 text-right cursor-pointer"id="hidden-filters">Ocultar Filtros</h3>
                     </div>
                     <div class="select-types">
                         <h3 class="text-lg font-bold text-gray-600	pt-5">Tipo</h3>
@@ -357,12 +357,12 @@
                         <div class="greater-revenue flex my-5">
                             <div class="w-1/2 ">Mes con más ganancia</div>
                             <div class="w-1/4 text-sm text-right"> <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1" id="higher-month"></span> </div>
-                            <div class="w-1/4 text-right font-bold text-gray-600" id="higher-month-amount">$</div>
+                            <div class="w-1/4 text-right font-bold text-green-600" id="higher-month-amount">$</div>
                         </div>
                         <div class="greater-bills flex my-5">
                             <div class="w-1/2 ">Mes con más gasto</div>
                             <div class="w-1/4 text-sm text-right" ><span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1" id="spent-month"></span></div>
-                            <div class="w-1/4 text-right font-bold text-gray-600" id="spent-month-amount">$</div>
+                            <div class="w-1/4 text-right font-bold text-red-600" id="spent-month-amount">$</div>
                         </div>
                     </div>
                     <!-- Category Totals -->
@@ -402,25 +402,8 @@
                             <th class="px-2 text-right">balance</th>
                         </tr>
                     </thead>
-                    <tbody class="">
-                        <tr class="text-sm md:text-lg">
-                            <td class="px-2">03/2023</td>
-                            <td class="px-2 text-right  text-green-600">$2000</td>
-                            <td class="px-2 text-right  text-red-600">$500</td>
-                            <td class="px-2 text-right font-bold text-gray-600">$ 50000</td>
-                        <tr>
-                        <tr class="">
-                            <td class="px-2">04/2023</td>
-                            <td class="px-2 text-right  text-green-600">$2000</td>
-                            <td class="px-2 text-right  text-red-600">$500</td>
-                            <td class="px-2 text-right font-bold text-gray-600">$ 50000</td>
-                        </tr>
-                        <tr class="">
-                            <td class="px-2">05/2023</td>
-                            <td class="px-2 text-right  text-green-600">$2000</td>
-                            <td class="px-2 text-right  text-red-600">$500</td>
-                            <td class="px-2 text-right font-bold text-gray-600">$ 50000</td>
-                        </tr>
+                    <tbody class="report-months-total">
+                        <!-- insert report with js -->
                     </tbody>
                 </table>
             </div>
@@ -440,5 +423,6 @@
     
 
     <script src="./js/main.js"></script>
+    <script src=".js/funciones-faltantes.js"></script>
 </body>
 </html>
