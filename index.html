@@ -111,13 +111,13 @@
                         <div class="select-category">    
                             <h3 class="text-lg font-bold text-gray-600	pt-5">Categoría</h3>
                             <select class="border-solid border-2 w-full my-2 p-2 rounded-md" name="filter" id="filter-category">
-                                <option value="">Todas</option>
+                                <option value="Todas">Todas</option>
                                 <!-- filter categorys -->
                             </select>
                         </div>
                         <div class="date">    
                             <h3 class="text-lg font-bold text-gray-600	pt-5">Desde</h3>
-                            <input type="date" name="" id="filter-date" class="border-solid border-2 w-full my-2 p-2 rounded-md ">
+                            <input type="date" name="" id="filter-date"  class="border-solid border-2 w-full my-2 p-2 rounded-md ">
                         </div>
                         <div class="order">
                             <h3 class="text-lg font-bold text-gray-600	pt-5">Ordenar Por</h3>
@@ -303,7 +303,6 @@
         </div>
 
         <!--  EDITAR CATEGORIAS -->
-
         <div class="drop-shadow-lg h-auto hidden" id="container-category-edit">
             <div class="category-edit bg-gray-50 flex flex-col h-auto p-8 rounded-md m-8">
                 <div class="text-add-category flex flex-col">
@@ -319,15 +318,13 @@
                 </div>
             </div>
         </div>
-                
-
-        <!-- report -->
-        <div class="drop-shadow-lg h-auto hidden	" id="container-report">
+         <!-- report -->
+        <div class="drop-shadow-lg h-auto hidden" id="container-report">
             <div class="report bg-gray-50  h-auto p-8 rounded-md  m-8 ">
                 <div class="text-report px-2">
                     <h2 class="font-bold text-3xl w-full h-8 mt-2">Reportes</h2>
                 </div>
-                <div class="flex flex-col items-center mt-8" id="none-reports">
+                <div class="flex flex-col items-center mt-8 hidden" id="none-reports">
                     <div class="img-container flex justify-center lg:m-8 ">
                         <img class="w-1/2 lg:w-3/4" src="./images/undraw_file_analysis_8k9b.svg" alt="analisis de Reportes">
                     </div>
@@ -335,9 +332,8 @@
                         <h2 class="font-bold text-2xl text-center my-3"> Operaciones insuficientes </h2>
                         <p class="text-base text-center">Prueba agregando más operaciones</p>
                     </div>
-                
                 </div>
-                <div class="hidden" id="container-reports">
+                <div class="reports-container hidden" id="container-reports">
                     <div>
                         <h3 class="font-bold text-2xl py-5 px-2">Resumen</h3>
                     </div>
@@ -410,20 +406,14 @@
                     </tbody>
                 </table>
             </div>
-            </div>
                 </div>
-           
-        
-    
+             </div>
         </div>
      
     </main>
     <footer class="bg-[#D22779] w-full h-24 flex justify-center items-center">
         <h2 class="text-white text-lg font-mono	">Realizado por Ana Laura Flores</h2>
-
     </footer>
-    
-    
 
     <script src="./js/main.js"></script>
     </body>

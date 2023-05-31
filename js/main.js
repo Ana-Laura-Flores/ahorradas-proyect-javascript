@@ -86,12 +86,12 @@ const confirmAddOperation = () => {
 
 const renderOperation = (operations) => {
     cleanContainer("#table-operation")
-    if(operations.length) {
+    if(operations.length > 0) {
        for (const { id, description, category, date, type, amount} of operations){
            const categoryColor = type === "ganancias" ? "text-green-600" : "text-red-600"
            const categorySign = type === "ganancias" ? "+" : "-"
            const categorySelected = getData("categories").find(categor => categor.id === category)
-            hideElement("#none-operation")
+           hideElement("#none-operation")
             $("#table-operation").innerHTML += `
             <tr class="w-full md:flex md:justify-between  md:border md:border-slate-300 md:p-3 md:align-left ">
             <td class="px-2 md:w-1/4 ">${description}</td>
@@ -226,11 +226,12 @@ const editCategorie = () => {
     const categoriesId = $("#edit-category").getAttribute("data-id")
     const editedCategories = getData("categories").map(category => {
         if(category.id === categoriesId){
-            return saveCategories(category.id)
+            return saveCategories(category)
         }
         return category
     })
     setData("categories", editedCategories)
+    setData("operations", editedCategories)
     
     
 }
@@ -258,7 +259,7 @@ const total = (operations, type) => {
 const totalBalance = () => total("operations", "ganancias") - total("operations", "gastos")
 
 
-
+// constructor date
 const constructorDate = () => {
     
     actualDay =  new Date();
@@ -272,6 +273,7 @@ const constructorDate = () => {
      $("#date").setAttribute("value", (year + `-` + `0`+month + `-` + day))
     $("#date").setAttribute("max", (year + `-` + `0`+month + `-` + day) )
 }
+// auxiliar varibles date
 const months = [0,1,2,3,4,5,6,7,8,9,10,11]
 const objMes = {
     0: "enero",
@@ -287,12 +289,14 @@ const objMes = {
    10: "noviembre",
    11: "diciembre"
  }
+ // function higher gain
  let higherAmountMonth = 0
 const reportPerMonthHigher = (operationType) => {
     const currentOperations = getData("operations")   
     const incomePerMonth = {}
     if(!currentOperations){
         showElement("#none-reports")
+        hideElement("#container-reports")
     } else {
         hideElement("#none-reports")
         showElement("#container-reports")
@@ -324,7 +328,7 @@ const renderMonthHigher = () => {
     $("#higher-month").innerHTML = `${reportPerMonthHigher("ganancias")}`
     $("#higher-month-amount").innerHTML = `$ ${higherAmountMonth}`  
 }
-// reportes mayor gasto
+// reports higher spending
 
 let spentAmountMonth = 0
 const reportPerMonthSpent = (operationType) => {
@@ -332,6 +336,7 @@ const reportPerMonthSpent = (operationType) => {
     const incomePerMonth = {}
     if(!currentOperations){
         showElement("#none-reports")
+        hideElement("#container-reports")
     } else {
         hideElement("#none-reports")
         showElement("#container-reports")
@@ -364,15 +369,13 @@ const renderMonthSpent = () => {
     $("#spent-month").innerHTML = `${reportPerMonthSpent("gastos")}`
     $("#spent-month-amount").innerHTML = `-$ ${spentAmountMonth}`
 }
-
-
-
 // report of categories
 const reportTotalCategories = () => {
     const totalOfOperations = getData("operations")
     const nameCategory = getData("categories")
     if(!totalOfOperations){
         showElement("#none-reports")
+        hideElement("#container-reports")
     }else{
         hideElement("#none-reports")
         showElement("#container-reports")
@@ -399,12 +402,12 @@ const reportTotalCategories = () => {
     return categoriesTotal    
     }
 }
-
 // reports of total months
 const reportTotalMonths = () => {
     const totalOfOperations = getData("operations")
     if(!totalOfOperations){
         showElement("#none-reports")
+        hideElement("#container-reports")
     }else{
         hideElement("#none-reports")
         showElement("#container-reports")
@@ -438,39 +441,7 @@ const reportTotalMonths = () => {
     return totalPerMonth    
     }
 }
-
-// const reportPerMonthHigher = () => {
-//     const reportMonthHigher = reportTotalMonths()
-//     console.log(reportMonthHigher)
-//     let higherAmountMonth = 0
-//     let spendingAmountMonth = 0
-//     let higherAmountDate = ""
-//     let spendingAmountDate = ""
-//     for (const { date, gastoTotal, gananciaTotal } of reportMonthHigher)  {
-        
-//             if (gastoTotal > spendingAmountMonth){
-//                 spendingAmountMonth = gastoTotal
-//                 spendingAmountDate = date
-//             }
-//             if (gananciaTotal > higherAmountMonth){
-//                 higherAmountMonth = gastoTotal
-//                  higherAmountDate = date
-//                 }
-     
-//     } 
-    
-//     console.log(spendingAmountDate)
-//     console.log(spendingAmountMonth)
-//     console.log(higherAmountDate)
-//     console.log(higherAmountMonth)
-//     const dateHigher = new Date(higherAmountDate).getMonth()
-//     for (const mes in objMes){
-//         mes === parseInt(dateHigher-1)
-//         return objMes[parseInt(higherAmountDate)]
-//     }
-// }
-// console.log(reportPerMonthHigher())
-
+// function totals
  const totalCategory = (operationType) => {
     const totalOfCategory = getData("operations")
     const nameCategory = getData("categories")
@@ -504,7 +475,7 @@ const reportTotalMonths = () => {
         hideElement("#container-reports")
     }
  }
-
+// function balance
 const totalCategoryBalance = () => {
     const categoriesTotal = {}
     const totalOfCategory = getData("operations")
@@ -542,18 +513,27 @@ const totalCategoryBalance = () => {
         showElement("#none-reports")
         hideElement("#container-reports")
     }
-}       
+}   
+    
 //render reports //
 const render = () => {
-    renderHigherBalance()
-    renderHigherSpending()
-    renderhigher()
-    renderMonthHigher("ganancias")
-    renderMonthSpent("gastos")
-    renderReportTotalCategories()
-    renderReportTotalMonths()
+        renderHigherBalance()
+        renderHigherSpending()
+        renderhigher()
+        if((getData("operations").length <= 0)){
+            showElement("#none-reports")
+            hideElement(".reports-container")
+        } else {
+            hideElement("#none-reports")
+            renderMonthHigher("ganancias")
+            renderMonthSpent("gastos")
+            renderReportTotalCategories()
+            renderReportTotalMonths()
+        }
+        
     
 }
+// render balance
 const renderBalance = () =>{
     $("#ganancia-total").innerHTML = `+$ ${total("operations", "ganancias")}` 
     $("#gasto-total").innerHTML = `-$ ${total("operations", "gastos")}`
@@ -565,7 +545,6 @@ const renderhigher = () => {
         $("#higher-cat").innerHTML = `${totalCategory("ganancias").higher}`
         $("#higher-amount").innerHTML = `$ ${totalCategory("ganancias").totalAmount}`
     }
-    
 }
 const renderHigherSpending = () => {
     const operations = getData("operations")
@@ -580,16 +559,7 @@ const renderHigherBalance = () => {
         $("#higher-balance").innerHTML = `${totalCategoryBalance().higher}`
         $("#amount-balance-higher").innerHTML = `$${totalCategoryBalance().totalAmount}`
     }
-}/*
-const renderMonthHigher = () => {
-    $("#higher-month").innerHTML = `${reportPerMonthHigher("ganancias")}`
-    $("#higher-month-amount").innerHTML = `$${higherAmountMonth}`  
 }
-const renderMonthSpent = () => {
-    $("#spent-month").innerHTML = `${reportPerMonthSpent("gastos")}`
-    $("#spent-month-amount").innerHTML = `- $${spentAmountMonth}`
-}
-*/
 // render total for categories 
 const renderReportTotalCategories = () => {
     cleanContainer(".report-cat-total")
@@ -607,7 +577,6 @@ const renderReportTotalCategories = () => {
 
 //render total for months
 const renderReportTotalMonths = () => {
-    
     const reportsPerMonths = reportTotalMonths()
     for (const report of reportsPerMonths){
         if(report.gananciaTotal > 0 || report.gastoTotal > 0){
@@ -620,80 +589,104 @@ const renderReportTotalMonths = () => {
             <td class="px-2 text-right font-bold text-gray-600">$ ${report.gananciaTotal - report.gastoTotal}</td>
             </tr>`
         }
-        
     } 
 }
 
   // filters
-  const filterTotal = () => {
-    $("#filter-category").addEventListener("input", (e) =>{
-        const categoriesId = e.target.value
-        const currentOperation = getData("operations")
-        if(!categoriesId){
-           renderOperation(currentOperation)
-       } else {
-            const filteredOperations = currentOperation.filter(operation => operation.category === categoriesId)
-           renderOperation(filteredOperations)
-        }
-    })
-    $("#filter-type").addEventListener("input", (e) =>{
-        const typeId = e.target.value
-        const currentOperation = getData("operations")
-        if(typeId === "Todos"){
-            renderOperation(currentOperation)
-        } else {
-            const filteredOperations = currentOperation.filter(operation => operation.type === typeId.toLowerCase())
-           renderOperation(filteredOperations)
-        }
-    })
-    $("#filter-date").addEventListener("input", (e) =>{
-        const typeId = e.target.value
-        const currentOperation = getData("operations")
-        const filteredOperations = currentOperation.filter(operation => new Date(operation.date) > new Date(typeId))
-        renderOperation(filteredOperations)
-    })
-    $("#filter-order").addEventListener("input", (e) =>{
-        const typeId = e.target.value
-        const currentOperation = getData("operations")
-        if(typeId === "A/Z"){
-            const orderAZ = currentOperation.toSorted((a,b) => {
-                if (a.description < b.description) return -1
-                if (a.description > b.description) return 1
-                return 0
-            })
-            renderOperation(orderAZ)
-    }
-        if(typeId === "Z/A"){
-            const orderZA = currentOperation.toSorted((a,b) => {
-                if (a.description > b.description) return -1
-                if (a.description < b.description) return 1
-                return 0
-            })
-            renderOperation(orderZA)
-        }
-        if(typeId === "mayor_monto"){
-            const orderMayorMonto = currentOperation.toSorted((a,b) => b.amount - a.amount)
-            renderOperation(orderMayorMonto)
-        }
-        if(typeId === "menor_monto"){
-            const orderMenorMonto = currentOperation.toSorted((a,b) => a.amount - b.amount)
-            renderOperation(orderMenorMonto)
-        }
-        if(typeId === "menos_reciente"){
-            const orderMenorFecha = currentOperation.toSorted((a,b) => new Date(a.date) - new Date(b.date))
-            renderOperation(orderMenorFecha)
-        }
-        if(typeId === "mas_reciente"){
-            const orderMayorFecha = currentOperation.toSorted((a,b) => new Date(b.date) - new Date(a.date))
-            renderOperation(orderMayorFecha)
-        }
-    })
-    cleanContainer("#ganancia-total")
-    cleanContainer("#gasto-total")
-    cleanContainer("#balance-total")
-    
+const filterTotal = () => {
+    const currentOperation = getData("operations")
+    const typeId = $("#filter-type").value
+        const filteredOperationType = currentOperation.filter(operation => {
+            if (typeId === "Todos") {
+                return operation
+            } else {
+                return operation.type === typeId.toLowerCase()
+            }
+        })
+        const categoriesId = $("#filter-category").value
+        const filteredOperationsCat = filteredOperationType.filter(operation => {
+            if (categoriesId === "Todas") {
+                return operation
+            } 
+                return operation.category === categoriesId
+        })
+        const dateId = new Date($("#filter-date").value)
+        const filteredOperationDate = filteredOperationsCat.filter(operation => {
+            if(new Date(operation.date) !== dateId){
+                return filteredOperationsCat
+            }
+            if(new Date(operation.date) >= dateId){
+               return operation 
+            }
+            
+        })   
+        const orderId = $("#filter-order").value
+           //const order = filteredOperationDate
+        const filteredOrder = filteredOperationDate.toSorted((a,b) => {
+                if(orderId === "A/Z"){
+                    if (a.description < b.description) return -1
+                    if (a.description > b.description) return 1
+                    return 0
+                }
+                if(orderId === "Z/A"){
+                    if (a.description > b.description) return -1
+                    if (a.description < b.description) return 1
+                    return 0
+                } 
+                if(orderId === "mayor_monto"){
+                    return b.amount - a.amount
+                }
+                if(orderId === "menor_monto"){
+                    return a.amount - b.amount
+                }
+                if(orderId === "menos_reciente"){
+                    return new Date(a.date) - new Date(b.date)
+                }
+                if(orderId === "mas_reciente"){
+                    return new Date(b.date) - new Date(a.date)
+                }
+                return filteredOperationDate
+        })
+        return filteredOrder
+    }  
+
+$("#filter-category").addEventListener("input", () => {
+    const filtered = filterTotal()
+    renderOperation(filtered)
     renderBalance()
-  }
+}) 
+$("#filter-type").addEventListener("input", () => {
+    const filtered = filterTotal()
+    renderOperation(filtered)
+    renderBalance()
+}) 
+$("#filter-date").addEventListener("input", () => {
+    const filtered = filterTotal()
+    renderOperation(filtered)
+    renderBalance()
+}) 
+$("#filter-order").addEventListener("input", () => {
+    const filtered = filterTotal()
+    renderOperation(filtered)
+    renderBalance()
+}) 
+/*
+
+        cleanContainer("#ganancia-total")
+        cleanContainer("#gasto-total")
+        cleanContainer("#balance-total")
+        renderOperation()
+        renderBalance()
+*/
+  //test unir filtros
+//   const unirFiltros = () =>{
+//     $("#filter-category").addEventListener("input",filterTotal)
+//     $("#filter-order").addEventListener("input", filterTotal)
+//     $("#filter-date").addEventListener("input", filterTotal)
+//     $("#filter-type").addEventListener("input", filterTotal)
+//     $("#filter-category").addEventListener("input", filterTotal)
+//   }
+//   unirFiltros()
 // Events - - Initialize
 const initializeApp = () => {
     setData("operations", allOperations)
@@ -704,9 +697,11 @@ const initializeApp = () => {
     total("operations", "ganancias")
     total("operations", "gastos")
     totalBalance()
+    renderBalance()
     constructorDate()
-    render()
     filterTotal()
+    render()
+    
  
 // events nav-bar
 for (const btn of $$(".btn-balance")){
@@ -816,9 +811,9 @@ for (const btn of $$(".btn-reports")){
         
     })
     $("#hidden-filters").addEventListener("click", () =>{
-    hideElement(".container-filters-type")
-    hideElement("#hidden-filters")
-    showElement("#show-filters")
+        hideElement(".container-filters-type")
+        hideElement("#hidden-filters")
+        showElement("#show-filters")
     })
     $("#show-filters").addEventListener("click", () =>{
         showElement(".container-filters-type")
