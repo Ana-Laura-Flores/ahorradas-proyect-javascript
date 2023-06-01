@@ -626,14 +626,18 @@ const filterTotal = () => {
         $("#filter-date").setAttribute("value", $("#filter-date").value)
         const dateId = new Date($("#filter-date").value)
         const filteredOperationDate = filteredOperationsCat.filter(operation => {
-           
            if (new Date(operation.date) >= dateId){
                return operation
            }
+           if (!dateId){
+               return filteredOperationsCat
+           }
+          
         }) 
-        console.log(filteredOperationDate)
+        
+        
         const orderId = $("#filter-order").value
-        if(filteredOperationDate.lenght){
+       
             const filteredOrder = filteredOperationDate.toSorted((a,b) => {
                 if(orderId === "A/Z"){
                     if (a.description < b.description) return -1
@@ -657,10 +661,12 @@ const filterTotal = () => {
                 if(orderId === "mas_reciente"){
                     return new Date(b.date) - new Date(a.date)
                 }
-                return filteredOrder
+                return filteredOperationDate
+                
             })
-        }
-        return filteredOperationDate
+            return filteredOrder
+        
+        
     }  
 
 $("#filter-category").addEventListener("input", () => {
@@ -700,8 +706,6 @@ const initializeApp = () => {
     renderOperation(allOperations)
     renderCategoriesOptions(allCategories)
     renderCategoriesTable(allCategories)
-    total("operations", "ganancias")
-    total("operations", "gastos")
     totalBalance()
     renderBalance()
     constructorDate()
