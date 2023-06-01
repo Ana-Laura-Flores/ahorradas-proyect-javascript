@@ -265,10 +265,12 @@ const constructorDate = () => {
     //Mes
     month = actualDay.getMonth()+1;
     //Día
-    day = actualDay.getDate();
+    day = (actualDay.getDate());
     
-     $("#date").setAttribute("value", (year + `-` + `0`+month + `-` + day))
-    $("#date").setAttribute("max", (year + `-` + `0`+month + `-` + day) )
+    $("#date").setAttribute("value", (year + `-` + `0`+month + `-` +  `0`+day))
+    $("#date").setAttribute("max", (year + `-` + `0`+month + `-` +  `0`+day ))
+    $("#filter-date").setAttribute("value", (year + `-` + `0`+month + `-` + `0`+day))
+    $("#filter-date").setAttribute("max", (year + `-` + `0`+month + `-` +  `0`+day ))
 }
 // auxiliar varibles date
 const months = [0,1,2,3,4,5,6,7,8,9,10,11]
@@ -600,7 +602,7 @@ const filterTotal = () => {
                 return operation.type === typeId.toLowerCase()
             }
         })
-        console.log(filteredOperationType)
+        
         const categoriesId = $("#filter-category").value
         const filteredOperationsCat = filteredOperationType.filter(operation => {
             if (categoriesId === "Todas") {
@@ -608,12 +610,15 @@ const filterTotal = () => {
             } 
                 return operation.category === categoriesId
         })
+        
+        const dateIdFormat = $("#filter-date").setAttribute("value", $("#filter-date").value)
         const dateId = new Date($("#filter-date").value)
         const filteredOperationDate = filteredOperationsCat.filter(operation => {
-             if( new Date(operation.date) >= dateId){
-               return operation 
+            console.log(dateId, operation.date)
+             if(new Date(operation.date) >= dateId){
+               return operation
             }
-            return filteredOperationsCat
+          
         }) 
         const orderId = $("#filter-order").value
         const filteredOrder = filteredOperationDate.toSorted((a,b) => {
@@ -646,15 +651,24 @@ const filterTotal = () => {
 
 $("#filter-category").addEventListener("input", () => {
     const filtered = filterTotal()
-    renderOperation(filtered)
-    renderBalance()
+    if (!filtered.length){
+        showElement("#none-operation")
+        hideElement("#container-table-operation")
+        hideElement(".balance")        
+    }   else {       
+        renderOperation(filtered)
+        renderBalance()
+        showElement("#container-table-operation")
+        showElement(".balance")
+    }
+          
 }) 
 $("#filter-type").addEventListener("input", () => {
     const filtered = filterTotal()
     renderOperation(filtered)
     renderBalance()
 }) 
-$("#filter-date").addEventListener("input", () => {
+$("#filter-date").addEventListener("change", () => {
     const filtered = filterTotal()
     renderOperation(filtered)
     renderBalance()
