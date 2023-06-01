@@ -17,27 +17,27 @@ const setData = (key, array) => localStorage.setItem(key, JSON.stringify(array))
 const categoriesDefault = [
     {
         id: randomId(),
-        categoriesName: "Comida"
+        categoryName: "Comida"
     },
     {
         id: randomId(),
-        categoriesName: "Servicios"
+        categoryName: "Servicios"
     },
     {
         id: randomId(),
-        categoriesName: "Salidas"
+        categoryName: "Salidas"
     },
     {
         id: randomId(),
-        categoriesName: "Educación"
+        categoryName: "Educación"
     },
     {
         id: randomId(),
-        categoriesName: "Transporte"
+        categoryName: "Transporte"
     },
     {
         id: randomId(),
-        categoriesName: "Trabajo"
+        categoryName: "Trabajo"
     },
 ]
 
@@ -64,7 +64,7 @@ const saveOperation = (operationId) => {
 const saveCategories = () =>{
     return {
         id: randomId (),
-        categoriesName: $("#categorie-name").value
+        categoryName: $("#categorie-name").value
     }
 }
 const addData = (data) => {
@@ -86,16 +86,16 @@ const confirmAddOperation = () => {
 
 const renderOperation = (operations) => {
     cleanContainer("#table-operation")
-    if(operations.length > 0) {
+    if(operations.length >= 1) {
        for (const { id, description, category, date, type, amount} of operations){
            const categoryColor = type === "ganancias" ? "text-green-600" : "text-red-600"
            const categorySign = type === "ganancias" ? "+" : "-"
            const categorySelected = getData("categories").find(categor => categor.id === category)
-           hideElement("#none-operation")
+            hideElement("#none-operation")
             $("#table-operation").innerHTML += `
             <tr class="w-full md:flex md:justify-between  md:border md:border-slate-300 md:p-3 md:align-left ">
             <td class="px-2 md:w-1/4 ">${description}</td>
-                                    <td class="px-2 flex justify-end md:w-1/5 md:justify-start "><span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">${categorySelected.categoriesName}</span></td>
+                                    <td class="px-2 flex justify-end md:w-1/5 md:justify-start "><span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">${categorySelected.categoryName}</span></td>
                                     <td class="px-2 text-right text-sm md:flex md: justify-end hidden md:w-1/5">${date}</td>
                                     <td id= "price" class="px-2  hidden md:flex md:w-1/5 justify-end  text-right ${categoryColor} font-bold ">$ ${categorySign} ${amount} </td> 
                                     <td class="flex px-2 hidden md:flex md:w-1/6 justify-end">
@@ -121,12 +121,12 @@ const renderOperation = (operations) => {
 //render categories 
 const renderCategoriesOptions = (categorys) => {
     cleanContainer("#categories-name")
-    for (const { categoriesName, id } of categorys){
+    for (const { categoryName, id } of categorys){
         $("#categories-name").innerHTML += `
-        <option value="${id}" data-id="${id}">${categoriesName}</option>
+        <option value="${id}" data-id="${id}">${categoryName}</option>
         `
         $("#filter-category").innerHTML += `
-        <option value="${id}"data-id="${id}">${categoriesName}</option>
+        <option value="${id}"data-id="${id}">${categoryName}</option>
         `
     }
 }
@@ -134,11 +134,11 @@ const renderCategoriesOptions = (categorys) => {
 // render table categories
 const renderCategoriesTable = (categorys) => {
     cleanContainer("#categories-list")
-    for (const { categoriesName, id } of categorys) {
+    for (const { categoryName, id } of categorys) {
         $("#categories-list").innerHTML += `
         <tr class="w-full flex justify-between p-3 align-left ">
             <td class="px-2 flex justify-end md:w-1/5 md:justify-start ">
-                <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">${categoriesName}
+                <span class="rounded-md bg-[#EEAECD] text-xs font-bold text-center text-[#D22779] px-2 p-1">${categoryName}
                 </span>
             </td>
             <td class="flex">
@@ -222,7 +222,7 @@ const editFormOperation = (id) => {
     $("#date").value = currentOperation.date
     
 }
-const editCategorie = () => {
+const editCategory = () => {
     const categoriesId = $("#edit-category").getAttribute("data-id")
     const editedCategories = getData("categories").map(category => {
         if(category.id === categoriesId){
@@ -233,7 +233,6 @@ const editCategorie = () => {
     setData("categories", editedCategories)
     setData("operations", editedCategories)
     
-    
 }
 const editFormCategories = (id) => {
     showElement("#title-edit-category")
@@ -243,7 +242,7 @@ const editFormCategories = (id) => {
     hideElement("#categories-list")
     const editedCategories = getData("categories").find(category => category.id === id)
     $("#edit-category").setAttribute("data-id", id)
-    $("#categorie-name").value = editedCategories.categoriesName
+    $("#categorie-name").value = editedCategories.categoryName
  
 }
 //balances
@@ -380,7 +379,7 @@ const reportTotalCategories = () => {
         hideElement("#none-reports")
         showElement("#container-reports")
         const categoriesTotal = [] 
-        for (const {categoriesName, id} of nameCategory){
+        for (const {categoryName, id} of nameCategory){
             let accGanancia = 0
             let accGasto = 0
             for (const { category, amount, type } of totalOfOperations) {
@@ -393,7 +392,7 @@ const reportTotalCategories = () => {
                 }
             }
         categoriesTotal.push({
-            categoryName: categoriesName,
+            nameCategory: categoryName,
             gastoTotal: accGasto,
             gananciaTotal: accGanancia
         })
@@ -449,13 +448,13 @@ const reportTotalMonths = () => {
     if(totalOfCategory.length > 1){
         hideElement("#none-reports")
         showElement("#container-reports")
-        for (const {categoriesName, id} of nameCategory){
+        for (const {categoryName, id} of nameCategory){
             let acc = 0
             totalOfCategory.map(({ category, amount, type }) => {
                 if(category === id & type === operationType){
                     acc += parseInt(amount)
                 }
-            categoriesTotal[categoriesName] = acc
+            categoriesTotal[categoryName] = acc
             
             })
          }
@@ -483,7 +482,7 @@ const totalCategoryBalance = () => {
     if(totalOfCategory.length > 1){
         hideElement("#none-reports")
         showElement("#container-reports")
-        for (const {categoriesName, id} of nameCategory){
+        for (const {categoryName, id} of nameCategory){
             let accganancia = 0
             let accGasto = 0
             let balance = 0
@@ -495,7 +494,7 @@ const totalCategoryBalance = () => {
                     accGasto += parseInt(amount)
                 }
             balance = accganancia - accGasto
-            categoriesTotal[categoriesName] = balance
+            categoriesTotal[categoryName] = balance
             })
         }
         let higher = " "
@@ -567,7 +566,7 @@ const renderReportTotalCategories = () => {
     for (const report of categoriesGanancias){
         $(".report-cat-total").innerHTML += `
         <tr class="" id="report-of-cate">
-        <td class="px-2">${report.categoryName}</td>
+        <td class="px-2">${report.nameCategory}</td>
         <td class="px-2 text-right  cat-tot text-green-600">$ ${report.gananciaTotal}</td>        
         <td class="px-2 text-right  text-red-600">$ ${report.gastoTotal}</td>
         <td class="px-2 text-right font-bold text-gray-600">$ ${report.gananciaTotal - report.gastoTotal}</td>
@@ -612,16 +611,11 @@ const filterTotal = () => {
         })
         const dateId = new Date($("#filter-date").value)
         const filteredOperationDate = filteredOperationsCat.filter(operation => {
-            if(new Date(operation.date) !== dateId){
-                return filteredOperationsCat
-            }
-            if(new Date(operation.date) >= dateId){
+             if( new Date(operation.date) >= dateId){
                return operation 
             }
-            
-        })   
+        }) 
         const orderId = $("#filter-order").value
-           //const order = filteredOperationDate
         const filteredOrder = filteredOperationDate.toSorted((a,b) => {
                 if(orderId === "A/Z"){
                     if (a.description < b.description) return -1
@@ -670,23 +664,7 @@ $("#filter-order").addEventListener("input", () => {
     renderOperation(filtered)
     renderBalance()
 }) 
-/*
 
-        cleanContainer("#ganancia-total")
-        cleanContainer("#gasto-total")
-        cleanContainer("#balance-total")
-        renderOperation()
-        renderBalance()
-*/
-  //test unir filtros
-//   const unirFiltros = () =>{
-//     $("#filter-category").addEventListener("input",filterTotal)
-//     $("#filter-order").addEventListener("input", filterTotal)
-//     $("#filter-date").addEventListener("input", filterTotal)
-//     $("#filter-type").addEventListener("input", filterTotal)
-//     $("#filter-category").addEventListener("input", filterTotal)
-//   }
-//   unirFiltros()
 // Events - - Initialize
 const initializeApp = () => {
     setData("operations", allOperations)
@@ -701,7 +679,6 @@ const initializeApp = () => {
     constructorDate()
     filterTotal()
     render()
-    
  
 // events nav-bar
 for (const btn of $$(".btn-balance")){
@@ -750,6 +727,7 @@ for (const btn of $$(".btn-reports")){
         hideElement("#dropdown")
         hideElement("#btn-menu-close")
     })
+    // events btn
     $("#btn-new-operation").addEventListener("click", (e) =>{
         e.preventDefault()
         showElement("#modal-new-operation")
@@ -788,13 +766,13 @@ for (const btn of $$(".btn-reports")){
 
     $("#edit-category").addEventListener("click", (e) => {
         e.preventDefault()
-        editCategorie()
+        editCategory()
         const currentCategories = getData("categories")
         renderCategoriesOptions(currentCategories)
         renderCategoriesTable(currentCategories)
-        console.log(currentCategories)
         showElement("#text-confirm-edit")
         renderOperation(getData("operations"))
+        
         
        
     })
