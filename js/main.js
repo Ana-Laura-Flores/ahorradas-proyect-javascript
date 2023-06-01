@@ -226,14 +226,13 @@ const editCategory = () => {
     const categoriesId = $("#edit-category").getAttribute("data-id")
     const editedCategories = getData("categories").map(category => {
         if(category.id === categoriesId){
-            return saveCategories(category)
+            category.categoryName =  $("#categorie-name").value
         }
         return category
     })
     setData("categories", editedCategories)
-    setData("operations", editedCategories)
-    
-}
+ }
+
 const editFormCategories = (id) => {
     showElement("#title-edit-category")
     hideElement("#title-category")
@@ -243,7 +242,6 @@ const editFormCategories = (id) => {
     const editedCategories = getData("categories").find(category => category.id === id)
     $("#edit-category").setAttribute("data-id", id)
     $("#categorie-name").value = editedCategories.categoryName
- 
 }
 //balances
 const total = (operations, type) => {
@@ -602,6 +600,7 @@ const filterTotal = () => {
                 return operation.type === typeId.toLowerCase()
             }
         })
+        console.log(filteredOperationType)
         const categoriesId = $("#filter-category").value
         const filteredOperationsCat = filteredOperationType.filter(operation => {
             if (categoriesId === "Todas") {
@@ -614,6 +613,7 @@ const filterTotal = () => {
              if( new Date(operation.date) >= dateId){
                return operation 
             }
+            return filteredOperationsCat
         }) 
         const orderId = $("#filter-order").value
         const filteredOrder = filteredOperationDate.toSorted((a,b) => {
@@ -639,9 +639,9 @@ const filterTotal = () => {
                 if(orderId === "mas_reciente"){
                     return new Date(b.date) - new Date(a.date)
                 }
-                return filteredOperationDate
+                return filteredOrder
         })
-        return filteredOrder
+        return filteredOperationDate
     }  
 
 $("#filter-category").addEventListener("input", () => {
