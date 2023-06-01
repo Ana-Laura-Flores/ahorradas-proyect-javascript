@@ -244,17 +244,27 @@ const editFormCategories = (id) => {
     $("#categorie-name").value = editedCategories.categoryName
 }
 //balances
-const total = (operations, type) => {
-   const totalAmount = getData(operations).filter(operation => operation.type === type)
-    
-            let acc = 0
-             for (const {amount} of totalAmount){
-                acc += parseInt(amount)
-               }
-               return acc
+const total = () => {
+    let accSpent = 0
+    let accHigher = 0
+   getData("operations").filter(operation => {
+       if(operation.type === "ganancias"){
+        accHigher += parseInt(operation.amount)
+       } 
+       if(operation.type === "gastos") {
+        accSpent += parseInt(operation.amount)
+       }
+   })
+    return {
+        higher: accHigher,
+        spent: accSpent,
+        balance: accHigher - accSpent
     }
-const totalBalance = () => total("operations", "ganancias") - total("operations", "gastos")
-
+    
+   }
+    
+const totalBalance = () => total().balance
+//console.log(total(), totalBalance())
 
 // constructor date
 const constructorDate = () => {
@@ -528,14 +538,15 @@ const render = () => {
             renderMonthSpent("gastos")
             renderReportTotalCategories()
             renderReportTotalMonths()
+            renderBalance()
         }
         
     
 }
 // render balance
 const renderBalance = () =>{
-    $("#ganancia-total").innerHTML = `+$ ${total("operations", "ganancias")}` 
-    $("#gasto-total").innerHTML = `-$ ${total("operations", "gastos")}`
+    $("#ganancia-total").innerHTML = `+$ ${total().higher}` 
+    $("#gasto-total").innerHTML = `-$ ${total().spent}`
     $("#balance-total").innerHTML = `$ ${totalBalance()}`
 }
 const renderhigher = () => {
@@ -594,6 +605,7 @@ const renderReportTotalMonths = () => {
   // filters
 const filterTotal = () => {
     const currentOperation = getData("operations")
+    
     const typeId = $("#filter-type").value
         const filteredOperationType = currentOperation.filter(operation => {
             if (typeId === "Todos") {
@@ -611,17 +623,18 @@ const filterTotal = () => {
                 return operation.category === categoriesId
         })
         
-        const dateIdFormat = $("#filter-date").setAttribute("value", $("#filter-date").value)
+        $("#filter-date").setAttribute("value", $("#filter-date").value)
         const dateId = new Date($("#filter-date").value)
         const filteredOperationDate = filteredOperationsCat.filter(operation => {
-            console.log(dateId, operation.date)
-             if(new Date(operation.date) >= dateId){
+           
+           if (new Date(operation.date) >= dateId){
                return operation
-            }
-          
+           }
         }) 
+        console.log(filteredOperationDate)
         const orderId = $("#filter-order").value
-        const filteredOrder = filteredOperationDate.toSorted((a,b) => {
+        if(filteredOperationDate.lenght){
+            const filteredOrder = filteredOperationDate.toSorted((a,b) => {
                 if(orderId === "A/Z"){
                     if (a.description < b.description) return -1
                     if (a.description > b.description) return 1
@@ -645,7 +658,8 @@ const filterTotal = () => {
                     return new Date(b.date) - new Date(a.date)
                 }
                 return filteredOrder
-        })
+            })
+        }
         return filteredOperationDate
     }  
 
@@ -668,7 +682,7 @@ $("#filter-type").addEventListener("input", () => {
     renderOperation(filtered)
     renderBalance()
 }) 
-$("#filter-date").addEventListener("change", () => {
+$("#filter-date").addEventListener("input", () => {
     const filtered = filterTotal()
     renderOperation(filtered)
     renderBalance()
