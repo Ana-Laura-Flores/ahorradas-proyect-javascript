@@ -518,22 +518,25 @@ const renderBalance = (operationsData) => {
 };
 const renderhigher = () => {
   const operations = getData("operations");
-  if (operations.length > 1) {
+  if (operations.length >= 1) {
     $("#higher-cat").innerHTML = `${totalCategory("ganancias").higher}`;
     $("#higher-amount").innerHTML = `$ ${totalCategory("ganancias").totalAmount}`;
   }
 };
 const renderHigherSpending = () => {
   const operations = getData("operations");
-  if (operations.length > 1) {
+  if (operations.length >= 1) {
     $("#higher-spending").innerHTML = `${totalCategory("gastos").higher}`;
     $("#amount-spending").innerHTML = `- $${totalCategory("gastos").totalAmount}`;
   }
 };
 const renderHigherBalance = () => {
   const operations = getData("operations");
-  const operationsHigher = operations.type === "ganancias"
-    if(operationsHigher.length > 1){
+  console.log(operations)
+  const operationsType = operations.filter(({type}) => type === "ganancias")
+  console.log(operationsType)
+  console.log((operationsType.length >= 1))
+    if(operationsType.length >= 1){
     $("#higher-balance").innerHTML = `${totalCategoryBalance().higher}`;
     $("#amount-balance-higher").innerHTML = `$${totalCategoryBalance().totalAmount}`;
   } else {
