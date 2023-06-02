@@ -525,26 +525,22 @@ const renderhigher = () => {
 };
 const renderHigherSpending = () => {
   const operations = getData("operations");
-  if (operations.length >= 1) {
+  if (operations.length > 1) {
     $("#higher-spending").innerHTML = `${totalCategory("gastos").higher}`;
     $("#amount-spending").innerHTML = `- $${totalCategory("gastos").totalAmount}`;
   }
 };
 const renderHigherBalance = () => {
   const operations = getData("operations");
-  console.log(operations)
   const operationsType = operations.filter(({type}) => type === "ganancias")
-  console.log(operationsType)
-  console.log((operationsType.length >= 1))
-    if(operationsType.length >= 1){
+    if(operationsType.length > 1){
     $("#higher-balance").innerHTML = `${totalCategoryBalance().higher}`;
     $("#amount-balance-higher").innerHTML = `$${totalCategoryBalance().totalAmount}`;
   } else {
     $("#higher-balance").innerHTML = "sin Datos";
   $("#amount-balance-higher").innerHTML = `$ 0`;
 }
-    
-  
+ 
 };
 const renderMonthSpent = () => {
     $("#spent-month").innerHTML = `${reportPerMonthSpent("gastos")}`;
