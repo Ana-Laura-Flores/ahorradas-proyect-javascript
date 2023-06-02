@@ -50,7 +50,11 @@ const confirmAddOperation = () => {
 };
 // per function delete categoriy
   const newData = getData("operations")
-  const findOperation = (categorySelected) => newData.filter((operationId) => categorySelected !== operationId.category)
+  const findOperation = (categorySelected) => newData.filter((operationId) => {
+    if(operationId) {
+     return categorySelected !== operationId.category
+    }
+  })
  
 // constructor date
 const constructorDate = () => {
@@ -719,7 +723,7 @@ const initializeApp = () => {
   totalBalance(allOperations);
   renderBalance(allOperations);
   constructorDate();
-  filterTotal();
+ 
   render();
 
   // events nav-bar
