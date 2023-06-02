@@ -495,10 +495,7 @@ const totalCategoryBalance = () => {
 
 //render reports //
 const render = () => {
-  renderHigherBalance();
-  renderHigherSpending();
-  renderhigher();
-  if (getData("operations").length <= 0) {
+   if (getData("operations").length <= 0) {
     showElement("#none-reports");
     hideElement(".reports-container");
   } else {
@@ -521,19 +518,25 @@ const renderhigher = () => {
   if (operations.length >= 1) {
     $("#higher-cat").innerHTML = `${totalCategory("ganancias").higher}`;
     $("#higher-amount").innerHTML = `$ ${totalCategory("ganancias").totalAmount}`;
-  }
+  } else {
+    $("#higher-cat").innerHTML = "sin Datos";
+    $("#amount-amount").innerHTML = `$ 0`;
+}
 };
 const renderHigherSpending = () => {
   const operations = getData("operations");
-  if (operations.length > 1) {
+  if (operations.length >= 1) {
     $("#higher-spending").innerHTML = `${totalCategory("gastos").higher}`;
     $("#amount-spending").innerHTML = `- $${totalCategory("gastos").totalAmount}`;
-  }
+  }  else {
+    $("#higher-spending").innerHTML = "sin Datos";
+    $("#amount-spending").innerHTML = `$ 0`;
+}
 };
 const renderHigherBalance = () => {
   const operations = getData("operations");
   const operationsType = operations.filter(({type}) => type === "ganancias")
-    if(operationsType.length > 1){
+    if(operationsType.length >= 1){
     $("#higher-balance").innerHTML = `${totalCategoryBalance().higher}`;
     $("#amount-balance-higher").innerHTML = `$${totalCategoryBalance().totalAmount}`;
   } else {
@@ -627,7 +630,7 @@ const filterTotal = () => {
     } else {
       return operation.type === typeId.toLowerCase();
     }
-  });
+});
 
   const categoriesId = $("#filter-category").value;
   const filteredOperationsCat = filteredOperationType.filter((operation) => {
