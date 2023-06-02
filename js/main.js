@@ -214,12 +214,12 @@ const deleteModalOperation = (id) => {
       hideElement("#modal-open");
       const operationId = $("#btn-delete-category").getAttribute("data-id");
       deleteData(operationId, "categories");
-      const test = (findOperation(operationId))
-      setData("operations", test)
+      const findOperationId = (findOperation(operationId))
+      setData("operations", findOperationId)
       renderCategoriesOptions(getData("categories"));
       renderCategoriesTable(getData("categories"));
       renderOperation(getData("operations"));
-      renderBalance(test)
+      renderBalance(findOperationId)
       
     });
   };
@@ -509,7 +509,13 @@ const render = () => {
     renderReportTotalCategories();
     renderReportTotalMonths();
     renderBalance(allOperations);
+    renderHigherBalance();
+    renderHigherSpending();
+    renderhigher();
   }
+  
+    
+  
 };
 // render balance
 const renderBalance = (operationsData) => {
@@ -519,17 +525,19 @@ const renderBalance = (operationsData) => {
 };
 const renderhigher = () => {
   const operations = getData("operations");
-  if (operations.length >= 1) {
+  const operationsType = operations.filter(({type}) => type === "ganancias")
+  if (operationsType.length >= 1) {
     $("#higher-cat").innerHTML = `${totalCategory("ganancias").higher}`;
     $("#higher-amount").innerHTML = `$ ${totalCategory("ganancias").totalAmount}`;
   } else {
     $("#higher-cat").innerHTML = "sin Datos";
-    $("#amount-amount").innerHTML = `$ 0`;
+    $("#higher-amount").innerHTML = `$ 0`;
 }
 };
 const renderHigherSpending = () => {
   const operations = getData("operations");
-  if (operations.length >= 1) {
+  const operationsType = operations.filter(({type}) => type === "gastos")
+  if(operationsType.length >= 1){
     $("#higher-spending").innerHTML = `${totalCategory("gastos").higher}`;
     $("#amount-spending").innerHTML = `- $${totalCategory("gastos").totalAmount}`;
   }  else {
@@ -539,8 +547,9 @@ const renderHigherSpending = () => {
 };
 const renderHigherBalance = () => {
   const operations = getData("operations");
+  const operationsTypeH = operations.filter(({type}) => type === "gastos")
   const operationsType = operations.filter(({type}) => type === "ganancias")
-    if(operationsType.length >= 1){
+    if(operationsTypeH.length >= 1 && operationsType.length >= 1){
     $("#higher-balance").innerHTML = `${totalCategoryBalance().higher}`;
     $("#amount-balance-higher").innerHTML = `$${totalCategoryBalance().totalAmount}`;
   } else {
@@ -723,7 +732,6 @@ const initializeApp = () => {
   totalBalance(allOperations);
   renderBalance(allOperations);
   constructorDate();
- 
   render();
 
   // events nav-bar
