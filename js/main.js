@@ -47,7 +47,11 @@ const allCategories = getData("categories") || categoriesDefault;
 //auxiliar functions
 const confirmAddOperation = () => {
     $("#confirm-add-operation").innerHTML = "tu operacion fue guardada con exito";
+    setTimeout(() => {
+      $("#confirm-add-operation").innerHTML = "";
+    }, 1500);;
 };
+
 // per function delete categoriy
   const newData = getData("operations")
   const findOperation = (categorySelected) => newData.filter((operationId) => {
@@ -58,13 +62,13 @@ const confirmAddOperation = () => {
  
 // constructor date
 const constructorDate = () => {
-    actualDay = new Date();
+    let actualDay = new Date();
     //Año
-    year = actualDay.getFullYear();
+    let year = actualDay.getFullYear();
     //Mes
-    month = actualDay.getMonth() + 1;
+    let month = actualDay.getMonth() + 1;
     //Día
-    day = actualDay.getDate();
+    let day = actualDay.getDate();
   
     $("#date").setAttribute("value", year + `-` + `0` + month + `-` + `0` + day);
     $("#date").setAttribute("max", year + `-` + `0` + month + `-` + `0` + day);
@@ -77,6 +81,7 @@ const constructorDate = () => {
       year + `-` + `0` + month + `-` + `0` + day
     );
   };
+
   // auxiliar varibles date
   const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   const objMes = {
@@ -93,8 +98,11 @@ const constructorDate = () => {
     10: "noviembre",
     11: "diciembre",
   };
+
+
 //operations function
 // operations save/ add / edit
+
 const saveOperation = (operationId) => {
   const categoriesId =
     $("#categories-name").options[
@@ -180,6 +188,7 @@ const editOperation = () => {
   });
   setData("operations", editedOperation);
 };
+
 // modal confirm delete operation
 const deleteModalOperation = (id) => {
     $("#btn-delete-operation").setAttribute("data-id", id);
@@ -258,6 +267,7 @@ const editFormCategories = (id) => {
   $("#edit-category").setAttribute("data-id", id);
   $("#category-name").value = editedCategories.categoryName;
 };
+
 //balances
 const total = (operationsData) => {
   let accSpent = 0;
@@ -388,6 +398,7 @@ const reportTotalCategories = () => {
     return categoriesTotal;
   }
 };
+
 // reports of total months
 const reportTotalMonths = () => {
   const totalOfOperations = getData("operations");
@@ -426,6 +437,7 @@ const reportTotalMonths = () => {
     return totalPerMonth;
   }
 };
+
 // function totals
 const totalCategory = (operationType) => {
   const totalOfCategory = getData("operations");
@@ -458,6 +470,7 @@ const totalCategory = (operationType) => {
     hideElement("#container-reports");
   }
 };
+
 // function balance
 const totalCategoryBalance = () => {
   const categoriesTotal = {};
@@ -517,6 +530,7 @@ const render = () => {
     
   
 };
+
 // render balance
 const renderBalance = (operationsData) => {
   $("#ganancia-total").innerHTML = `+$ ${total(operationsData).higher}`;
@@ -566,9 +580,11 @@ const renderMonthSpent = () => {
     $("#higher-month").innerHTML = `${reportPerMonthHigher("ganancias")}`;
     $("#higher-month-amount").innerHTML = `$ ${higherAmountMonth}`;
   };
+
 //render categories
 const renderCategoriesOptions = (categorys) => {
     cleanContainer("#categories-name");
+    
     for (const { categoryName, id } of categorys) {
       $("#categories-name").innerHTML += `
           <option value="${id}" data-id="${id}">${categoryName}</option>
@@ -597,6 +613,7 @@ const renderCategoriesTable = (categorys) => {
           `;
     }
   };
+
 // render total for categories
 const renderReportTotalCategories = () => {
   cleanContainer(".report-cat-total");
@@ -636,33 +653,43 @@ const renderReportTotalMonths = () => {
 // filters
 const filterTotal = () => {
   const currentOperation = getData("operations");
-  const typeId = $("#filter-type").value;
+  const typeId = $("#filter-type").value.toLowerCase();
   const filteredOperationType = currentOperation.filter((operation) => {
-    if (typeId === "Todos") {
+    if (typeId === "todos") {
       return operation;
-    } else {
-      return operation.type === typeId.toLowerCase();
-    }
+    } 
+    return operation.type === typeId
 });
-
+console.log(filteredOperationType)
   const categoriesId = $("#filter-category").value;
   const filteredOperationsCat = filteredOperationType.filter((operation) => {
     if (categoriesId === "Todas") {
       return operation;
     }
     return operation.category === categoriesId;
-  });
-
+ });
+  
   $("#filter-date").setAttribute("value", $("#filter-date").value);
-  const dateId = new Date($("#filter-date").value);
+  const dateId = ($("#filter-date").value);
+  console.log(new Date(dateId))
   const filteredOperationDate = filteredOperationsCat.filter((operation) => {
-    if (new Date(operation.date) >= dateId) {
-      return operation;
+    if (dateId === "" || new Date(operation.date) <= dateId){
+      console.log("cai aca")
+      showElement("#none-operation")
+      return filteredOperationsCat
+     
+      
     }
-    if (!dateId) {
-      return filteredOperationsCat;
-    }
+    if(dateId){
+      if (new Date(operation.date) >= new Date(dateId)) {
+        console.log("entre en el if 2")
+        return operation
+        } 
+        
+    } 
+          
   });
+  
   const orderId = $("#filter-order").value;
   const filteredOrder = filteredOperationDate.toSorted((a, b) => {
     if (orderId === "A/Z") {
@@ -687,15 +714,17 @@ const filterTotal = () => {
     if (orderId === "mas_reciente") {
       return new Date(b.date) - new Date(a.date);
     }
+    
     return filteredOperationDate;
   });
-
-  return filteredOrder;
+  console.log(filteredOrder)
+   return filteredOrder;
+ 
 };
 
 $("#filter-category").addEventListener("input", () => {
   const filtered = filterTotal();
-  if (!filtered.length) {
+  if (!filtered) {
     showElement("#none-operation");
     hideElement("#container-table-operation");
     hideElement(".balance");
@@ -706,21 +735,25 @@ $("#filter-category").addEventListener("input", () => {
     showElement(".balance");
   }
 });
+
 $("#filter-type").addEventListener("input", () => {
   const filtered = filterTotal();
   renderOperation(filtered);
   renderBalance(filtered);
 });
+
 $("#filter-date").addEventListener("input", () => {
   const filtered = filterTotal();
   renderOperation(filtered);
   renderBalance(filtered);
 });
+
 $("#filter-order").addEventListener("input", () => {
   const filtered = filterTotal();
   renderOperation(filtered);
   renderBalance(filtered);
 });
+
 
 // Events - - Initialize
 const initializeApp = () => {
@@ -758,6 +791,7 @@ const initializeApp = () => {
       showElement("#btn-menu");
     });
   }
+
   for (const btn of $$(".btn-reports")) {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -769,18 +803,21 @@ const initializeApp = () => {
       showElement("#btn-menu");
     });
   }
+
   $("#btn-menu").addEventListener("click", (e) => {
     e.preventDefault();
     showElement("#dropdown");
     showElement("#btn-menu-close");
     hideElement("#btn-menu");
   });
+
   $("#btn-menu-close").addEventListener("click", (e) => {
     e.preventDefault();
     showElement("#btn-menu");
     hideElement("#dropdown");
     hideElement("#btn-menu-close");
   });
+
   // events btn
   $("#btn-new-operation").addEventListener("click", (e) => {
     e.preventDefault();
@@ -791,11 +828,9 @@ const initializeApp = () => {
   $("#btn-add-operation").addEventListener("click", (e) => {
     e.preventDefault();
     addData("operations");
-    confirmAddOperation();
-    setTimeout(() => {
-      hideElement("#confirm-add-operation");
-    }, 1500);
-  });
+    confirmAddOperation()
+   });
+  
   $("#btn-edit-operation").addEventListener("click", (e) => {
     e.preventDefault();
     editOperation();
@@ -806,6 +841,7 @@ const initializeApp = () => {
     renderBalance(allOperations);
     hideElement("#modal-new-operation");
   });
+
   $("#add-category").addEventListener("click", (e) => {
     e.preventDefault();
     // if (validateForm()) {
@@ -831,6 +867,7 @@ const initializeApp = () => {
       }, 1500);
     renderOperation(getData("operations"));
   });
+
   $("#cancel-edit-category").addEventListener("click", () => {
     showElement("#title-category");
     hideElement("#title-edit-category");
@@ -842,11 +879,13 @@ const initializeApp = () => {
     renderCategoriesOptions(currentCategories);
     renderCategoriesTable(currentCategories);
   });
+
   $("#hidden-filters").addEventListener("click", () => {
     hideElement(".container-filters-type");
     hideElement("#hidden-filters");
     showElement("#show-filters");
   });
+
   $("#show-filters").addEventListener("click", () => {
     showElement(".container-filters-type");
     showElement("#hidden-filters");
